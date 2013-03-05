@@ -8,23 +8,26 @@ namespace ssvms
 {
 	class ItemBase;
 	class Category;
+	namespace Items { class Goto; }
 
 	class Menu
 	{
 		friend class Category;
+		friend class Items::Goto;
 
 		private:
 			std::vector<ItemBase*> items; // owned
 			std::vector<Category*> categories; // owned
 			Category* currentCategory{nullptr};
 			
-
 			template<typename T, typename... TArgs> T& createItem(Category& mCategory, const std::string& mName, TArgs&&... mArgs)
 			{
-				ItemBase* result{new T(*this, mCategory, mName, std::forward<TArgs>(mArgs)...)};
+				T* result{new T(*this, mCategory, mName, std::forward<TArgs>(mArgs)...)};
 				items.push_back(result);
-				return *(static_cast<T*>(result));
+				return *result;
 			}
+
+			void setCurrentCategory(Category& mCategory);
 
 		public:
 			Menu() = default;
@@ -39,11 +42,10 @@ namespace ssvms
 			void increaseCurrentItem();
 			void decreaseCurrentItem();
 
-			void setCurrentCategory(Category& mCategory);
 			Category& getCurrentCategory();
 			ItemBase& getCurrentItem();
 			std::vector<ItemBase*>& getCurrentItems();
-			int getCurrentItemsIndex();
+			int getCurrentIndex();
 	};
 }
 

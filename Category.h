@@ -19,6 +19,8 @@ namespace ssvms
 			std::vector<ItemBase*> items;
 			int currentIndex{0};
 
+			void wrapIndex();
+
 		public:
 			Category(Menu& mMenu, const std::string& mName);
 

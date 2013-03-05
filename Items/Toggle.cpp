@@ -6,15 +6,15 @@ namespace ssvms
 {
 	namespace Items
 	{
-		Toggle::Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, std::function<bool()> mActivatedPredicate, std::function<void()> mActivateAction,
-			std::function<void()> mDeactivateAction) : ItemBase{mMenu, mCategory, mName}, activatedPredicate(mActivatedPredicate),
-			activateAction{mActivateAction}, deactivateAction{mDeactivateAction}, activated{activatedPredicate()} { }
-
+		Toggle::Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, Predicate mActivatedPredicate, Action mActivateAction, Action mDeactivateAction)
+			: ItemBase{mMenu, mCategory, mName}, predicate(mActivatedPredicate), activateAction{mActivateAction}, deactivateAction{mDeactivateAction},
+			activated{predicate} { }
+		
 		void Toggle::execute()
 		{
-			activated = activatedPredicate();
+			activated = predicate();
 			activated ? deactivateAction() : activateAction();
-			activated = activatedPredicate();
+			activated = predicate();
 		}
 		string Toggle::getName() { return activated ? name + ": on" : name + ": off"; }
 	}

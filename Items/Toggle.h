@@ -14,13 +14,16 @@ namespace ssvms
 	{
 		class Toggle : public ItemBase
 		{
+			typedef std::function<void()> Action;
+			typedef std::function<bool()> Predicate;
+
 			private:
-				std::function<bool()> activatedPredicate;
-				std::function<void()> activateAction, deactivateAction;
+				Predicate predicate;
+				Action activateAction, deactivateAction;
 				bool activated;
 
 			public:
-				Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, std::function<bool()> mActivatedPredicate, std::function<void()> mActivateAction, std::function<void()> mDeactivateAction);
+				Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, Predicate mActivatedPredicate, Action mActivateAction, Action mDeactivateAction);
 				void execute() override;
 				std::string getName() override;
 		};
