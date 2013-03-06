@@ -8,7 +8,7 @@ namespace ssvms
 	{
 		Toggle::Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, Predicate mActivatedPredicate, Action mActivateAction, Action mDeactivateAction)
 			: ItemBase{mMenu, mCategory, mName}, predicate(mActivatedPredicate), activateAction{mActivateAction}, deactivateAction{mDeactivateAction},
-			activated{predicate} { }
+			activated{predicate()} { }
 		
 		void Toggle::execute()
 		{
