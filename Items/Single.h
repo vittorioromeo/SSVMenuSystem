@@ -14,7 +14,6 @@ namespace ssvms
 		class Single : public ItemBase
 		{
 			typedef std::function<void()> Action;
-			typedef std::function<bool()> Predicate;
 
 			private:
 				Action action;

@@ -1,1 +1,1 @@
-./_INTERMEDIATE/Menu.o ./_INTERMEDIATE/Category.o ./_INTERMEDIATE/ItemBase.o ./_INTERMEDIATE/Items_Single.o ./_INTERMEDIATE/Items_Toggle.o ./_INTERMEDIATE/Items_Goto.o
+./_INTERMEDIATE/Menu.o ./_INTERMEDIATE/Category.o ./_INTERMEDIATE/ItemBase.o ./_INTERMEDIATE/Items_Single.o ./_INTERMEDIATE/Items_Toggle.o ./_INTERMEDIATE/Items_Goto.o ./_INTERMEDIATE/Items_Slider.o

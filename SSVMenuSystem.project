@@ -16,6 +16,8 @@
       <File Name="Items/Toggle.cpp"/>
       <File Name="Items/Goto.h"/>
       <File Name="Items/Goto.cpp"/>
+      <File Name="Items/Slider.h"/>
+      <File Name="Items/Slider.cpp"/>
     </VirtualDirectory>
     <File Name="SSVMenuSystem.h"/>
   </VirtualDirectory>
