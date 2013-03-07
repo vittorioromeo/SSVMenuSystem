@@ -24,9 +24,9 @@ namespace ssvms
 		public:
 			Category(Menu& mMenu, const std::string& mName);
 
-			template<typename T, typename... TArgs> T& createItem(const std::string& mName, TArgs&&... mArgs)
+			template<typename T, typename... TArgs> T& create(const std::string& mName, TArgs&&... mArgs)
 			{
-				T& result(menu.createItem<T>(*this, mName, (mArgs)...));
+				T& result(menu.create<T>(*this, mName, (mArgs)...));
 				items.push_back(&result);				
 				return result;
 			}

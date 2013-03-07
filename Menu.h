@@ -20,7 +20,7 @@ namespace ssvms
 			std::vector<Category*> categories; // owned
 			Category* currentCategory{nullptr};
 			
-			template<typename T, typename... TArgs> T& createItem(Category& mCategory, const std::string& mName, TArgs&&... mArgs)
+			template<typename T, typename... TArgs> T& create(Category& mCategory, const std::string& mName, TArgs&&... mArgs)
 			{
 				T* result{new T(*this, mCategory, mName, std::forward<TArgs>(mArgs)...)};
 				items.push_back(result);
