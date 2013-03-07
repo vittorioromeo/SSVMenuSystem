@@ -20,7 +20,6 @@ namespace ssvms
 			private:
 				Predicate predicate;
 				Action activateAction, deactivateAction;
-				bool activated;
 
 			public:
 				Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, Predicate mActivatedPredicate, Action mActivateAction, Action mDeactivateAction);
