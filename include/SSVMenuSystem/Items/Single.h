@@ -6,7 +6,7 @@
 #define SSVMS_ITEM_SINGLE
 
 #include <functional>
-#include "ItemBase.h"
+#include "SSVMenuSystem/Menu/ItemBase.h"
 
 namespace ssvms
 {

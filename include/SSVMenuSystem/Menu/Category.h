@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <string>
-#include "Menu.h"
+#include "SSVMenuSystem/Menu/Menu.h"
 
 namespace ssvms
 {

@@ -3,23 +3,37 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
-    <File Name="Menu.h"/>
-    <File Name="Menu.cpp"/>
-    <File Name="Category.h"/>
-    <File Name="Category.cpp"/>
-    <File Name="ItemBase.h"/>
-    <File Name="ItemBase.cpp"/>
-    <VirtualDirectory Name="Items">
-      <File Name="Items/Single.cpp"/>
-      <File Name="Items/Single.h"/>
-      <File Name="Items/Toggle.h"/>
-      <File Name="Items/Toggle.cpp"/>
-      <File Name="Items/Goto.h"/>
-      <File Name="Items/Goto.cpp"/>
-      <File Name="Items/Slider.h"/>
-      <File Name="Items/Slider.cpp"/>
+    <VirtualDirectory Name="SSVMenuSystem">
+      <VirtualDirectory Name="Menu">
+        <File Name="src/SSVMenuSystem/Menu/Category.cpp"/>
+        <File Name="src/SSVMenuSystem/Menu/ItemBase.cpp"/>
+        <File Name="src/SSVMenuSystem/Menu/Menu.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Items">
+        <File Name="src/SSVMenuSystem/Items/Goto.cpp"/>
+        <File Name="src/SSVMenuSystem/Items/Single.cpp"/>
+        <File Name="src/SSVMenuSystem/Items/Slider.cpp"/>
+        <File Name="src/SSVMenuSystem/Items/Toggle.cpp"/>
+      </VirtualDirectory>
     </VirtualDirectory>
-    <File Name="SSVMenuSystem.h"/>
+  </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
+  <VirtualDirectory Name="include">
+    <VirtualDirectory Name="SSVMenuSystem">
+      <File Name="include/SSVMenuSystem/SSVMenuSystem.h"/>
+      <VirtualDirectory Name="Menu">
+        <File Name="include/SSVMenuSystem/Menu/Category.h"/>
+        <File Name="include/SSVMenuSystem/Menu/ItemBase.h"/>
+        <File Name="include/SSVMenuSystem/Menu/Menu.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Items">
+        <File Name="include/SSVMenuSystem/Items/Goto.h"/>
+        <File Name="include/SSVMenuSystem/Items/Single.h"/>
+        <File Name="include/SSVMenuSystem/Items/Slider.h"/>
+        <File Name="include/SSVMenuSystem/Items/Toggle.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
   </VirtualDirectory>
   <Settings Type="Dynamic Library">
     <GlobalSettings>
@@ -70,7 +84,7 @@
     </Configuration>
     <Configuration Name="Release" CompilerType="nuwen" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-W;-s;-pedantic;-O3;-Wextra;-std=c++11;-Wall" C_Options="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" UseDifferentPCHFlags="no" PCHFlags="">
-        <IncludePath Value="."/>
+        <IncludePath Value="./include/"/>
       </Compiler>
       <Linker Options="-shared" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
@@ -106,6 +120,4 @@
       </Completion>
     </Configuration>
   </Settings>
-  <Dependencies Name="Debug"/>
-  <Dependencies Name="Release"/>
 </CodeLite_Project>

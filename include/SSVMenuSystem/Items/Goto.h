@@ -5,7 +5,7 @@
 #ifndef SSVMS_ITEM_GOTO
 #define SSVMS_ITEM_GOTO
 
-#include "ItemBase.h"
+#include "SSVMenuSystem/Menu/ItemBase.h"
 
 namespace ssvms
 {
