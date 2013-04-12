@@ -15,6 +15,6 @@ namespace ssvms
 
 		void Slider::increase() { increaseAction(); }
 		void Slider::decrease() { decreaseAction(); }
-		string Slider::getName() { return name + ": " + valueGetter(); }		
+		string Slider::getName() { return name + ": " + valueGetter(); }
 	}
 }

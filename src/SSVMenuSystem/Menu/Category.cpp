@@ -19,7 +19,7 @@ namespace ssvms
 		else if(currentIndex < 0) currentIndex = items.size() - 1;
 	}
 
-	string Category::getName() 				{ return name; }
+	const string& Category::getName() 		{ return name; }
 	ItemBase& Category::getCurrentItem() 	{ return *(items[currentIndex]); }
 	vector<ItemBase*>& Category::getItems() { return items; }
 	int Category::getCurrentIndex() 		{ return currentIndex; }

@@ -31,14 +31,14 @@ namespace ssvms
 			template<typename T, typename... TArgs> T& create(const std::string& mName, TArgs&&... mArgs)
 			{
 				T& result(menu.create<T>(*this, mName, (mArgs)...));
-				items.push_back(&result);				
+				items.push_back(&result);
 				return result;
 			}
 
 			void selectNextItem();
 			void selectPreviousItem();
 
-			std::string getName();
+			const std::string& getName();
 			ItemBase& getCurrentItem();
 			std::vector<ItemBase*>& getItems();
 			int getCurrentIndex();

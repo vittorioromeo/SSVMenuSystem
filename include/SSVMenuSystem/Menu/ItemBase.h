@@ -11,7 +11,7 @@ namespace ssvms
 {
 	class Menu;
 	class Category;
-	
+
 	class ItemBase
 	{
 		protected:
@@ -31,4 +31,4 @@ namespace ssvms
 	};
 }
 
-#endif 
+#endif
