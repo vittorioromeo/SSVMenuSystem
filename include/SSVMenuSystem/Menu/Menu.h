@@ -28,7 +28,7 @@ namespace ssvms
 			template<typename T, typename... TArgs> T& create(Category& mCategory, const std::string& mName, TArgs&&... mArgs)
 			{
 				T* result{new T(*this, mCategory, mName, std::forward<TArgs>(mArgs)...)};
-				items.push_back(result);
+				items.push_back(std::unique_ptr<T>(result));
 				return *result;
 			}
 
