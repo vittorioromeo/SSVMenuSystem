@@ -15,16 +15,11 @@ namespace ssvms
 	Category& Menu::createCategory(const string& mName)
 	{
 		Category* result{new Category{*this, mName}};
-		categories.push_back(result);		
+		categories.push_back(unique_ptr<Category>(result));
 		if(currentCategory == nullptr) currentCategory = result;
 		return *result;
 	}
-	void Menu::clear()
-	{
-		for(auto& item : items) delete item;
-		for(auto& category : categories) delete category;
-		items.clear(); categories.clear();
-	}
+	void Menu::clear() { items.clear(); categories.clear(); }
 
 	void Menu::selectNextItem() 		{ currentCategory->selectNextItem(); }
 	void Menu::selectPreviousItem() 	{ currentCategory->selectPreviousItem(); }

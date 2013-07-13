@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace ssvms
 {
@@ -20,10 +21,10 @@ namespace ssvms
 		friend class Items::Goto;
 
 		private:
-			std::vector<ItemBase*> items; // owned
-			std::vector<Category*> categories; // owned
+			std::vector<std::unique_ptr<ItemBase>> items; // owned
+			std::vector<std::unique_ptr<Category>> categories; // owned
 			Category* currentCategory{nullptr};
-			
+
 			template<typename T, typename... TArgs> T& create(Category& mCategory, const std::string& mName, TArgs&&... mArgs)
 			{
 				T* result{new T(*this, mCategory, mName, std::forward<TArgs>(mArgs)...)};
