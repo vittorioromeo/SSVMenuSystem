@@ -7,10 +7,10 @@
 
 #include <vector>
 #include <string>
-#include "SSVMenuSystem/Menu/Menu.h"
 
 namespace ssvms
 {
+	class Menu;
 	class ItemBase;
 
 	class Category
@@ -20,28 +20,33 @@ namespace ssvms
 		private:
 			Menu& menu;
 			std::string name;
-			std::vector<ItemBase*> items;
+			std::vector<std::unique_ptr<ItemBase>> items;
 			int currentIndex{0};
 
-			void wrapIndex();
+			inline void wrapIndex()
+			{
+				if(items.empty()) { currentIndex = -1; return; }
+				else if(currentIndex > static_cast<int>(items.size() - 1)) currentIndex = 0;
+				else if(currentIndex < 0) currentIndex = items.size() - 1;
+			}
 
 		public:
-			Category(Menu& mMenu, const std::string& mName);
+			Category(Menu& mMenu, const std::string& mName) : menu(mMenu), name{mName} { }
 
 			template<typename T, typename... TArgs> T& create(const std::string& mName, TArgs&&... mArgs)
 			{
-				T& result(menu.create<T>(*this, mName, (mArgs)...));
-				items.push_back(&result);
-				return result;
+				T* result{new T(menu, *this, mName, std::forward<TArgs>(mArgs)...)};
+				items.push_back(std::unique_ptr<T>(result));
+				return *result;
 			}
 
-			void selectNextItem();
-			void selectPreviousItem();
+			inline void selectNextItem()				{ ++currentIndex; wrapIndex(); }
+			inline void selectPreviousItem()			{ --currentIndex; wrapIndex(); }
 
-			const std::string& getName();
-			ItemBase& getCurrentItem();
-			std::vector<ItemBase*>& getItems();
-			int getCurrentIndex();
+			inline const std::string& getName()			{ return name; }
+			inline ItemBase& getCurrentItem()			{ return *(items[currentIndex]); }
+			inline std::vector<std::unique_ptr<ItemBase>>& getItems()	{ return items; }
+			inline int getCurrentIndex()				{ return currentIndex; }
 	};
 }
 

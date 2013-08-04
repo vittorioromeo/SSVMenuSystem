@@ -20,14 +20,14 @@ namespace ssvms
 			std::string name;
 
 		public:
-			ItemBase(Menu& mMenu, Category& mCategory, const std::string& mName);
-			virtual ~ItemBase();
+			ItemBase(Menu& mMenu, Category& mCategory, const std::string& mName) : menu(mMenu), category(mCategory), name{mName} { }
+			virtual ~ItemBase() { }
 
-			virtual void execute();
-			virtual void increase();
-			virtual void decrease();
+			virtual void execute() { }
+			virtual void increase() { }
+			virtual void decrease() { }
 
-			virtual std::string getName();
+			virtual std::string getName() { return name; }
 	};
 }
 

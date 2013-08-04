@@ -18,17 +18,18 @@ namespace ssvms
 	{
 		class Toggle : public ItemBase
 		{
-			typedef std::function<void()> Action;
-			typedef std::function<bool()> Predicate;
-
 			private:
+				using Action = std::function<void()>;
+				using Predicate = std::function<bool()>;
 				Predicate predicate;
 				Action activateAction, deactivateAction;
 
 			public:
-				Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, Predicate mActivatedPredicate, Action mActivateAction, Action mDeactivateAction);
-				void execute() override;
-				std::string getName() override;
+				Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, Predicate mActivatedPredicate, Action mActivateAction, Action mDeactivateAction)
+					: ItemBase{mMenu, mCategory, mName}, predicate(mActivatedPredicate), activateAction{mActivateAction}, deactivateAction{mDeactivateAction} { }
+
+				inline void execute() override { predicate() ? deactivateAction() : activateAction(); }
+				inline std::string getName() override { return predicate() ? name + ": on" : name + ": off"; }
 		};
 	}
 }

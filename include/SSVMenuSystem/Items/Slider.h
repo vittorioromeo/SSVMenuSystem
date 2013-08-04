@@ -18,20 +18,21 @@ namespace ssvms
 	{
 		class Slider : public ItemBase
 		{
-			typedef std::function<void()> Action;
-			typedef std::function<std::string()> ValueGetter;
-
 			private:
+				using Action = std::function<void()>;
+				using ValueGetter = std::function<std::string()>;
 				ValueGetter valueGetter;
 				Action increaseAction, decreaseAction;
 
 			public:
-				Slider(Menu& mMenu, Category& mCategory, const std::string& mName, ValueGetter mValueGetter, Action mIncreaseAction, Action mDecreaseAction);
-				void increase() override;
-				void decrease() override;
-				std::string getName() override;
+				Slider(Menu& mMenu, Category& mCategory, const std::string& mName, ValueGetter mValueGetter, Action mIncreaseAction, Action mDecreaseAction)
+					: ItemBase{mMenu, mCategory, mName}, valueGetter{mValueGetter}, increaseAction{mIncreaseAction}, decreaseAction{mDecreaseAction} { }
+
+				inline void increase() override { increaseAction(); }
+				inline void decrease() override { decreaseAction(); }
+				inline std::string getName() override { return name + ": " + valueGetter(); }
 		};
 	}
 }
 
-#endif // SSVMS_ITEM_SLIDER
+#endif

@@ -17,14 +17,13 @@ namespace ssvms
 	{
 		class Single : public ItemBase
 		{
-			typedef std::function<void()> Action;
-
 			private:
+				using Action = std::function<void()>;
 				Action action;
 
 			public:
-				Single(Menu& mMenu, Category& mCategory, const std::string& mName, Action mAction);
-				void execute() override;
+				Single(Menu& mMenu, Category& mCategory, const std::string& mName, Action mAction) : ItemBase{mMenu, mCategory, mName}, action{mAction} { }
+				inline void execute() override { action(); }
 		};
 	}
 }

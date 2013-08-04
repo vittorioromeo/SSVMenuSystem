@@ -6,6 +6,7 @@
 #define SSVMS_ITEM_GOTO
 
 #include "SSVMenuSystem/Menu/ItemBase.h"
+#include "SSVMenuSystem/Menu/Menu.h"
 
 namespace ssvms
 {
@@ -20,8 +21,8 @@ namespace ssvms
 				Category& targetCategory;
 
 			public:
-				Goto(Menu& mMenu, Category& mCategory, const std::string& mName, Category& mTargetCategory);
-				void execute() override;
+				Goto(Menu& mMenu, Category& mCategory, const std::string& mName, Category& mTargetCategory) : ItemBase{mMenu, mCategory, mName}, targetCategory(mTargetCategory) { }
+				inline void execute() override { menu.setCurrentCategory(targetCategory); }
 		};
 	}
 }

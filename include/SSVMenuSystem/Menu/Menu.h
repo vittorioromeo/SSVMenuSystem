@@ -8,10 +8,11 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include "SSVMenuSystem/Menu/Category.h"
+#include "SSVMenuSystem/Menu/ItemBase.h"
 
 namespace ssvms
 {
-	class ItemBase;
 	class Category;
 	namespace Items { class Goto; }
 
@@ -21,36 +22,31 @@ namespace ssvms
 		friend class Items::Goto;
 
 		private:
-			std::vector<std::unique_ptr<ItemBase>> items; // owned
-			std::vector<std::unique_ptr<Category>> categories; // owned
+			std::vector<std::unique_ptr<Category>> categories;
 			Category* currentCategory{nullptr};
 
-			template<typename T, typename... TArgs> T& create(Category& mCategory, const std::string& mName, TArgs&&... mArgs)
-			{
-				T* result{new T(*this, mCategory, mName, std::forward<TArgs>(mArgs)...)};
-				items.push_back(std::unique_ptr<T>(result));
-				return *result;
-			}
-
-			void setCurrentCategory(Category& mCategory);
+			void setCurrentCategory(Category& mCategory) { currentCategory = &mCategory; }
 
 		public:
-			Menu() = default;
-			~Menu();
+			Category& createCategory(const std::string& mName)
+			{
+				Category* result{new Category{*this, mName}};
+				categories.emplace_back(result);
+				if(currentCategory == nullptr) currentCategory = result;
+				return *result;
+			}
+			void clear() { categories.clear(); }
 
-			Category& createCategory(const std::string& mName);
-			void clear();
+			void selectNextItem() { currentCategory->selectNextItem(); }
+			void selectPreviousItem() { currentCategory->selectPreviousItem(); }
+			void executeCurrentItem() { getCurrentItem().execute(); }
+			void increaseCurrentItem() { getCurrentItem().increase(); }
+			void decreaseCurrentItem() { getCurrentItem().decrease(); }
 
-			void selectNextItem();
-			void selectPreviousItem();
-			void executeCurrentItem();
-			void increaseCurrentItem();
-			void decreaseCurrentItem();
-
-			Category& getCurrentCategory();
-			ItemBase& getCurrentItem();
-			std::vector<ItemBase*>& getCurrentItems();
-			int getCurrentIndex();
+			inline Category& getCurrentCategory() 				{ return *currentCategory; }
+			inline ItemBase& getCurrentItem() 					{ return currentCategory->getCurrentItem(); }
+			inline std::vector<std::unique_ptr<ItemBase>>& getCurrentItems() 	{ return currentCategory->getItems(); }
+			inline int getCurrentIndex() 						{ return currentCategory->getCurrentIndex(); }
 	};
 }
 
