@@ -22,11 +22,7 @@ namespace ssvms
 
 			public:
 				Goto(Menu& mMenu, Category& mCategory, const std::string& mName, Category& mTarget) : ItemBase{mMenu, mCategory, mName}, target(mTarget) { }
-				inline void exec() override
-				{
-					if(!isEnabled()) return;
-					menu.setCurrentCategory(target);
-				}
+				inline void exec() override { menu.setCurrentCategory(target); }
 		};
 	}
 }

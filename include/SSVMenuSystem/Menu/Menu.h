@@ -39,9 +39,9 @@ namespace ssvms
 
 			inline void next()		{ category->next(); }
 			inline void previous()	{ category->previous(); }
-			inline void exec()		{ getItem().exec(); }
-			inline void increase()	{ getItem().increase(); }
-			inline void decrease()	{ getItem().decrease(); }
+			inline void exec()		{ if(getItem().isEnabled()) getItem().exec(); }
+			inline void increase()	{ if(getItem().isEnabled()) getItem().increase(); }
+			inline void decrease()	{ if(getItem().isEnabled()) getItem().decrease(); }
 
 			inline Category& getCategory() const									{ return *category; }
 			inline ItemBase& getItem() const										{ return category->getItem(); }

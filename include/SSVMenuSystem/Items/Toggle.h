@@ -28,11 +28,7 @@ namespace ssvms
 				Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, Predicate mActivatedPredicate, Action mActivateAction, Action mDeactivateAction)
 					: ItemBase{mMenu, mCategory, mName}, predicate(mActivatedPredicate), activateAction{mActivateAction}, deactivateAction{mDeactivateAction} { }
 
-				inline void exec() override
-				{
-					if(!isEnabled()) return;
-					predicate() ? deactivateAction() : activateAction();
-				}
+				inline void exec() override { predicate() ? deactivateAction() : activateAction(); }
 				inline std::string getName() const override { return predicate() ? name + ": on" : name + ": off"; }
 		};
 	}
