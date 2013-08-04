@@ -18,11 +18,15 @@ namespace ssvms
 		class Goto : public ItemBase
 		{
 			private:
-				Category& targetCategory;
+				Category& target;
 
 			public:
-				Goto(Menu& mMenu, Category& mCategory, const std::string& mName, Category& mTargetCategory) : ItemBase{mMenu, mCategory, mName}, targetCategory(mTargetCategory) { }
-				inline void execute() override { menu.setCurrentCategory(targetCategory); }
+				Goto(Menu& mMenu, Category& mCategory, const std::string& mName, Category& mTarget) : ItemBase{mMenu, mCategory, mName}, target(mTarget) { }
+				inline void exec() override
+				{
+					if(!isEnabled()) return;
+					menu.setCurrentCategory(target);
+				}
 		};
 	}
 }

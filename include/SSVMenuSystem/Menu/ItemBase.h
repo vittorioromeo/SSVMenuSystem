@@ -18,16 +18,20 @@ namespace ssvms
 			Menu& menu;
 			Category& category;
 			std::string name;
+			bool enabled{true};
 
 		public:
 			ItemBase(Menu& mMenu, Category& mCategory, const std::string& mName) : menu(mMenu), category(mCategory), name{mName} { }
-			virtual ~ItemBase() { }
+			inline virtual ~ItemBase() { }
 
-			virtual void execute() { }
-			virtual void increase() { }
-			virtual void decrease() { }
+			inline virtual void exec() { }
+			inline virtual void increase() { }
+			inline virtual void decrease() { }
 
-			virtual std::string getName() { return name; }
+			inline void setEnabled(bool mEnabled) { enabled = mEnabled; }
+
+			inline virtual std::string getName() const { return name; }
+			inline bool isEnabled() const { return enabled; }
 	};
 }
 

@@ -28,9 +28,17 @@ namespace ssvms
 				Slider(Menu& mMenu, Category& mCategory, const std::string& mName, ValueGetter mValueGetter, Action mIncreaseAction, Action mDecreaseAction)
 					: ItemBase{mMenu, mCategory, mName}, valueGetter{mValueGetter}, increaseAction{mIncreaseAction}, decreaseAction{mDecreaseAction} { }
 
-				inline void increase() override { increaseAction(); }
-				inline void decrease() override { decreaseAction(); }
-				inline std::string getName() override { return name + ": " + valueGetter(); }
+				inline void increase() override
+				{
+					if(!isEnabled()) return;
+					increaseAction();
+				}
+				inline void decrease() override
+				{
+					if(!isEnabled()) return;
+					decreaseAction();
+				}
+				inline std::string getName() const override { return name + ": " + valueGetter(); }
 		};
 	}
 }

@@ -23,30 +23,30 @@ namespace ssvms
 
 		private:
 			std::vector<std::unique_ptr<Category>> categories;
-			Category* currentCategory{nullptr};
+			Category* category{nullptr};
 
-			void setCurrentCategory(Category& mCategory) { currentCategory = &mCategory; }
+			inline void setCurrentCategory(Category& mCategory) { category = &mCategory; }
 
 		public:
-			Category& createCategory(const std::string& mName)
+			inline Category& createCategory(const std::string& mName)
 			{
 				Category* result{new Category{*this, mName}};
 				categories.emplace_back(result);
-				if(currentCategory == nullptr) currentCategory = result;
+				if(category == nullptr) category = result;
 				return *result;
 			}
-			void clear() { categories.clear(); }
+			inline void clear() { categories.clear(); }
 
-			void selectNextItem() { currentCategory->selectNextItem(); }
-			void selectPreviousItem() { currentCategory->selectPreviousItem(); }
-			void executeCurrentItem() { getCurrentItem().execute(); }
-			void increaseCurrentItem() { getCurrentItem().increase(); }
-			void decreaseCurrentItem() { getCurrentItem().decrease(); }
+			inline void next()		{ category->next(); }
+			inline void previous()	{ category->previous(); }
+			inline void exec()		{ getItem().exec(); }
+			inline void increase()	{ getItem().increase(); }
+			inline void decrease()	{ getItem().decrease(); }
 
-			inline Category& getCurrentCategory() 				{ return *currentCategory; }
-			inline ItemBase& getCurrentItem() 					{ return currentCategory->getCurrentItem(); }
-			inline std::vector<std::unique_ptr<ItemBase>>& getCurrentItems() 	{ return currentCategory->getItems(); }
-			inline int getCurrentIndex() 						{ return currentCategory->getCurrentIndex(); }
+			inline Category& getCategory() const									{ return *category; }
+			inline ItemBase& getItem() const										{ return category->getItem(); }
+			inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const	{ return category->getItems(); }
+			inline int getIndex() const												{ return category->getIndex(); }
 	};
 }
 

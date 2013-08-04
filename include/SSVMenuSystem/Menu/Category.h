@@ -21,13 +21,12 @@ namespace ssvms
 			Menu& menu;
 			std::string name;
 			std::vector<std::unique_ptr<ItemBase>> items;
-			int currentIndex{0};
+			int index{0};
 
 			inline void wrapIndex()
 			{
-				if(items.empty()) { currentIndex = -1; return; }
-				else if(currentIndex > static_cast<int>(items.size() - 1)) currentIndex = 0;
-				else if(currentIndex < 0) currentIndex = items.size() - 1;
+				if(index > static_cast<int>(items.size() - 1)) index = 0;
+				else if(index < 0) index = items.size() - 1;
 			}
 
 		public:
@@ -40,13 +39,13 @@ namespace ssvms
 				return *result;
 			}
 
-			inline void selectNextItem()				{ ++currentIndex; wrapIndex(); }
-			inline void selectPreviousItem()			{ --currentIndex; wrapIndex(); }
+			inline void next()		{ ++index; wrapIndex(); }
+			inline void previous()	{ --index; wrapIndex(); }
 
-			inline const std::string& getName()			{ return name; }
-			inline ItemBase& getCurrentItem()			{ return *(items[currentIndex]); }
-			inline std::vector<std::unique_ptr<ItemBase>>& getItems()	{ return items; }
-			inline int getCurrentIndex()				{ return currentIndex; }
+			inline const std::string& getName()	const								{ return name; }
+			inline ItemBase& getItem() const										{ return *(items[index]); }
+			inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const	{ return items; }
+			inline int getIndex()													{ return index; }
 	};
 }
 

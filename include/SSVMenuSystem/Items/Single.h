@@ -23,7 +23,11 @@ namespace ssvms
 
 			public:
 				Single(Menu& mMenu, Category& mCategory, const std::string& mName, Action mAction) : ItemBase{mMenu, mCategory, mName}, action{mAction} { }
-				inline void execute() override { action(); }
+				inline void exec() override
+				{
+					if(!isEnabled()) return;
+					action();
+				}
 		};
 	}
 }

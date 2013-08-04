@@ -5,12 +5,9 @@
 #ifndef SSVMENUSYSTEM
 #define SSVMENUSYSTEM
 
-// Menu
 #include "SSVMenuSystem/Menu/Menu.h"
 #include "SSVMenuSystem/Menu/Category.h"
 #include "SSVMenuSystem/Menu/ItemBase.h"
-
-// Items
 #include "SSVMenuSystem/Items/Single.h"
 #include "SSVMenuSystem/Items/Toggle.h"
 #include "SSVMenuSystem/Items/Goto.h"
