@@ -8,13 +8,17 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "SSVMenuSystem/Menu/Category.h"
+#include <stack>
 #include "SSVMenuSystem/Menu/ItemBase.h"
+#include "SSVMenuSystem/Menu/Category.h"
 
 namespace ssvms
 {
 	class Category;
-	namespace Items { class Goto; }
+	namespace Items
+	{
+		class Goto;
+	}
 
 	class Menu
 	{
@@ -24,18 +28,24 @@ namespace ssvms
 		private:
 			std::vector<std::unique_ptr<Category>> categories;
 			Category* category{nullptr};
+			std::stack<Category*> lastCategories;
 
-			inline void setCurrentCategory(Category& mCategory) { category = &mCategory; }
+			inline void setCategory(Category& mCategory)
+			{
+				lastCategories.push(&mCategory);
+				category = &mCategory;
+			}
 
 		public:
 			inline Category& createCategory(const std::string& mName)
 			{
 				Category* result{new Category{*this, mName}};
 				categories.emplace_back(result);
-				if(category == nullptr) category = result;
+				if(category == nullptr) setCategory(*result);
 				return *result;
 			}
-			inline void clear() { categories.clear(); }
+			inline void clear()		{ categories.clear(); }
+			inline void goBack()	{ lastCategories.pop(); category = lastCategories.top(); }
 
 			inline void next()		{ category->next(); }
 			inline void previous()	{ category->previous(); }
@@ -43,6 +53,7 @@ namespace ssvms
 			inline void increase()	{ if(getItem().isEnabled()) getItem().increase(); }
 			inline void decrease()	{ if(getItem().isEnabled()) getItem().decrease(); }
 
+			inline bool canGoBack() const											{ return lastCategories.size() > 1; }
 			inline Category& getCategory() const									{ return *category; }
 			inline ItemBase& getItem() const										{ return category->getItem(); }
 			inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const	{ return category->getItems(); }

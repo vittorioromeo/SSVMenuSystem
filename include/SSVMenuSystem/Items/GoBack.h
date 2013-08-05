@@ -2,8 +2,8 @@
 // License: Academic Free License ("AFL") v. 3.0
 // AFL License page: http://opensource.org/licenses/AFL-3.0
 
-#ifndef SSVMS_ITEM_GOTO
-#define SSVMS_ITEM_GOTO
+#ifndef SSVMS_ITEM_GOBACK
+#define SSVMS_ITEM_GOBACK
 
 #include "SSVMenuSystem/Menu/ItemBase.h"
 #include "SSVMenuSystem/Menu/Menu.h"
@@ -15,14 +15,11 @@ namespace ssvms
 
 	namespace Items
 	{
-		class Goto : public ItemBase
+		class GoBack : public ItemBase
 		{
-			private:
-				Category& target;
-
 			public:
-				Goto(Menu& mMenu, Category& mCategory, const std::string& mName, Category& mTarget) : ItemBase{mMenu, mCategory, mName}, target(mTarget) { }
-				inline void exec() override { menu.setCategory(target); }
+				GoBack(Menu& mMenu, Category& mCategory, const std::string& mName) : ItemBase{mMenu, mCategory, mName} { }
+				inline void exec() override { menu.goBack(); }
 		};
 	}
 }
