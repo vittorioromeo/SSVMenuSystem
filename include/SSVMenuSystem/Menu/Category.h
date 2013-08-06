@@ -52,6 +52,8 @@ namespace ssvms
 		}
 	};
 
+	// TODO: cannot the stuff above just be other constructors?
+
 	class Category
 	{
 		friend class Menu;

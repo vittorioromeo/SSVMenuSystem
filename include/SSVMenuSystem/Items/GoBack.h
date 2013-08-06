@@ -15,11 +15,10 @@ namespace ssvms
 
 	namespace Items
 	{
-		class GoBack : public ItemBase
+		struct GoBack : public ItemBase
 		{
-			public:
-				GoBack(Menu& mMenu, Category& mCategory, const std::string& mName) : ItemBase{mMenu, mCategory, mName} { }
-				inline void exec() override { menu.goBack(); }
+			GoBack(Menu& mMenu, Category& mCategory, const std::string& mName) : ItemBase{mMenu, mCategory, mName} { }
+			inline void exec() override { menu.goBack(); }
 		};
 	}
 }

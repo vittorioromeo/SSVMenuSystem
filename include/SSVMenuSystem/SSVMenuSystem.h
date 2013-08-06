@@ -13,6 +13,5 @@
 #include "SSVMenuSystem/Items/Single.h"
 #include "SSVMenuSystem/Items/Slider.h"
 #include "SSVMenuSystem/Items/Toggle.h"
-#include "SSVMenuSystem/Menu/MenuController.h"
 
 #endif

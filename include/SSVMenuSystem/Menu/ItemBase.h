@@ -28,10 +28,11 @@ namespace ssvms
 			inline virtual void increase() { }
 			inline virtual void decrease() { }
 
-			inline void setEnabled(bool mEnabled) { enabled = mEnabled; }
+			inline void setEnabled(bool mEnabled)		{ enabled = mEnabled; }
 
-			inline virtual std::string getName() const { return name; }
-			inline bool isEnabled() const { return enabled; }
+			inline Menu& getMenu() const				{ return menu; }
+			inline virtual std::string getName() const	{ return name; }
+			inline bool isEnabled() const				{ return enabled; }
 	};
 }
 
