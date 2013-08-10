@@ -8,17 +8,13 @@
 #include <vector>
 #include <string>
 #include <SSVUtils/SSVUtils.h>
+#include "SSVMenuSystem/Items/Toggle.h"
+#include "SSVMenuSystem/Items/Slider.h"
 
 namespace ssvms
 {
 	class Menu;
 	class ItemBase;
-
-	namespace Items
-	{
-		class Toggle;
-		class Slider;
-	}
 
 	template<typename TCategory, typename T> struct CHelper
 	{
