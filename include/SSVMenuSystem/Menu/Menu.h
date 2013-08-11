@@ -57,7 +57,7 @@ namespace ssvms
 			inline bool canGoBack() const									{ return lastCategories.size() > 1; }
 			inline Category& getCategory() const							{ return *category; }
 			inline ItemBase& getItem() const								{ return category->getItem(); }
-			inline const decltype(category->getItems())& getItems() const	{ return category->getItems(); }
+			inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const	{ return category->getItems(); }
 			inline int getIndex() const										{ return category->getIndex(); }
 			inline Internal::Controller& getMenuController()				{ return controller; }
 	};
