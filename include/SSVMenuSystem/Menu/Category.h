@@ -72,17 +72,16 @@ namespace ssvms
 			template<typename T, typename... TArgs> inline T& create(const std::string& mName, TArgs&&... mArgs)
 			{
 				T* result{CHelper<Category, T>::create(menu, *this, mName, std::forward<TArgs>(mArgs)...)};
-				items.push_back(std::unique_ptr<T>(result));
-				return *result;
+				items.emplace_back(result); return *result;
 			}
 
 			inline void next()		{ ++index; wrapIndex(); }
 			inline void previous()	{ --index; wrapIndex(); }
 
-			inline const std::string& getName()	const								{ return name; }
-			inline ItemBase& getItem() const										{ return *(items[index]); }
-			inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const	{ return items; }
-			inline int getIndex()													{ return index; }
+			inline const std::string& getName()	const		{ return name; }
+			inline ItemBase& getItem() const				{ return *(items[index]); }
+			inline const decltype(items)& getItems() const	{ return items; }
+			inline int getIndex()							{ return index; }
 	};
 }
 

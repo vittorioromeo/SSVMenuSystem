@@ -54,12 +54,12 @@ namespace ssvms
 			inline void increase()	{ if(getItem().isEnabled()) getItem().increase(); }
 			inline void decrease()	{ if(getItem().isEnabled()) getItem().decrease(); }
 
-			inline bool canGoBack() const											{ return lastCategories.size() > 1; }
-			inline Category& getCategory() const									{ return *category; }
-			inline ItemBase& getItem() const										{ return category->getItem(); }
-			inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const	{ return category->getItems(); }
-			inline int getIndex() const												{ return category->getIndex(); }
-			inline Internal::Controller& getMenuController()						{ return controller; }
+			inline bool canGoBack() const									{ return lastCategories.size() > 1; }
+			inline Category& getCategory() const							{ return *category; }
+			inline ItemBase& getItem() const								{ return category->getItem(); }
+			inline const decltype(category->getItems())& getItems() const	{ return category->getItems(); }
+			inline int getIndex() const										{ return category->getIndex(); }
+			inline Internal::Controller& getMenuController()				{ return controller; }
 	};
 
 	// Pipe operator allows to set predicates to enable/disable menu items
