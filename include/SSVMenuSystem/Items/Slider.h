@@ -7,6 +7,7 @@
 
 #include <functional>
 #include <string>
+#include <SSVUtils/SSVUtils.h>
 #include "SSVMenuSystem/Menu/ItemBase.h"
 
 namespace ssvms
@@ -27,6 +28,10 @@ namespace ssvms
 			public:
 				Slider(Menu& mMenu, Category& mCategory, const std::string& mName, ValueGetter mValueGetter, Action mIncreaseAction, Action mDecreaseAction)
 					: ItemBase{mMenu, mCategory, mName}, valueGetter{mValueGetter}, increaseAction{mIncreaseAction}, decreaseAction{mDecreaseAction} { }
+
+				template<typename T, typename TFuncGet, typename TFuncSet> Slider(Menu& mMenu, Category& mCategory, const std::string& mName, TFuncGet mFuncGet, TFuncSet mFuncSet, T mMin, T mMax, T mIncrement)
+					: ItemBase{mMenu, mCategory, mName}, valueGetter{[=]{ return ssvu::toStr(mFuncGet()); }}, increaseAction{[=]{ mFuncSet(ssvu::getClamped(mFuncGet() + mIncrement, mMin, mMax)); }},
+					  decreaseAction{[=]{ mFuncSet(ssvu::getClamped(mFuncGet() - mIncrement, mMin, mMax)); }} { }
 
 				inline void increase() override { increaseAction(); }
 				inline void decrease() override { decreaseAction(); }
