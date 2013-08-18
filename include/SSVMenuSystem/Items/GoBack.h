@@ -10,7 +10,6 @@
 
 namespace ssvms
 {
-	class Menu;
 	class Category;
 
 	namespace Items
