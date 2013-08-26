@@ -31,6 +31,9 @@ namespace ssvms
 				template<typename TFuncGet, typename TFuncSet> Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, TFuncGet mFuncGet, TFuncSet mFuncSet)
 					: ItemBase{mMenu, mCategory, mName}, predicate{[=]{ return mFuncGet(); }}, activateAction{[=]{ mFuncSet(true); }}, deactivateAction{[=]{ mFuncSet(false); }} { }
 
+				Toggle(Menu& mMenu, Category& mCategory, const std::string& mName, bool& mBool) : ItemBase{mMenu, mCategory, mName},
+					predicate{[this, &mBool]{ return mBool; }}, activateAction{[this, &mBool]{ mBool = true; }}, deactivateAction{[this, &mBool]{ mBool = false; }} { }
+
 				inline void exec() override { predicate() ? deactivateAction() : activateAction(); }
 				inline std::string getName() const override { return predicate() ? name + ": on" : name + ": off"; }
 		};
