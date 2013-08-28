@@ -18,7 +18,6 @@ namespace ssvms
 		class Single : public ItemBase
 		{
 			private:
-				using Action = std::function<void()>;
 				Action action;
 
 			public:

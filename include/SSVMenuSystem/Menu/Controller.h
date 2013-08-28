@@ -18,9 +18,6 @@ namespace ssvms
 	{
 		class Controller
 		{
-			public:
-				using Predicate = std::function<bool()>;
-
 			private:
 				std::vector<std::pair<ItemBase&, Predicate>> enableWhenPairs;
 

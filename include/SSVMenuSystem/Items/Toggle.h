@@ -19,8 +19,6 @@ namespace ssvms
 		class Toggle : public ItemBase
 		{
 			private:
-				using Action = std::function<void()>;
-				using Predicate = std::function<bool()>;
 				Predicate predicate;
 				Action activateAction, deactivateAction;
 

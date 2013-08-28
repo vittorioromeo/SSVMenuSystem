@@ -22,7 +22,6 @@ namespace ssvms
 
 		private:
 			using Controller = Internal::Controller;
-			using Predicate = Internal::Controller::Predicate;
 
 			std::vector<std::unique_ptr<Category>> categories;
 			Category* category{nullptr};
@@ -54,16 +53,16 @@ namespace ssvms
 			inline void increase()	{ if(getItem().isEnabled()) getItem().increase(); }
 			inline void decrease()	{ if(getItem().isEnabled()) getItem().decrease(); }
 
-			inline bool canGoBack() const									{ return lastCategories.size() > 1; }
-			inline Category& getCategory() const							{ return *category; }
-			inline ItemBase& getItem() const								{ return category->getItem(); }
-			inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const	{ return category->getItems(); }
-			inline int getIndex() const										{ return category->getIndex(); }
-			inline Internal::Controller& getMenuController()				{ return controller; }
+			inline bool canGoBack() const								{ return lastCategories.size() > 1; }
+			inline Category& getCategory() const						{ return *category; }
+			inline ItemBase& getItem() const							{ return category->getItem(); }
+			inline const decltype(category->items)& getItems() const	{ return category->getItems(); }
+			inline int getIndex() const									{ return category->getIndex(); }
+			inline Internal::Controller& getMenuController()			{ return controller; }
 	};
 
 	// Pipe operator allows to set predicates to enable/disable menu items
-	inline ItemBase& operator|(ItemBase& mLhs, Internal::Controller::Predicate mRhs) { mLhs.getMenu().getMenuController().enableItemWhen(mLhs, mRhs); return mLhs; }
+	inline ItemBase& operator|(ItemBase& mLhs, Predicate mRhs) { mLhs.getMenu().getMenuController().enableItemWhen(mLhs, mRhs); return mLhs; }
 }
 
 #endif
