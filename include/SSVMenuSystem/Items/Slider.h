@@ -20,7 +20,7 @@ namespace ssvms
 		class Slider : public ItemBase
 		{
 			private:
-				using ValueGetter = std::function<std::string()>;
+				using ValueGetter = ssvu::Func<std::string()>;
 				ValueGetter valueGetter;
 				Action increaseAction, decreaseAction;
 
