@@ -44,7 +44,7 @@ namespace ssvms
 			inline const std::string& getName()	const		{ return name; }
 			inline ItemBase& getItem() const				{ return *(items[index]); }
 			inline const decltype(items)& getItems() const	{ return items; }
-			inline int getIndex()							{ return index; }
+			inline int getIdx()								{ return index; }
 	};
 }
 

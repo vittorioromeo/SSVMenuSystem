@@ -57,7 +57,7 @@ namespace ssvms
 			inline Category& getCategory() const						{ return *category; }
 			inline ItemBase& getItem() const							{ return category->getItem(); }
 			inline const decltype(category->items)& getItems() const	{ return category->getItems(); }
-			inline int getIndex() const									{ return category->getIndex(); }
+			inline int getIdx() const									{ return category->getIdx(); }
 			inline Internal::Controller& getMenuController()			{ return controller; }
 	};
 
