@@ -14,7 +14,7 @@ namespace ssvms
 
 	namespace Items
 	{
-		class Goto : public ItemBase
+		class Goto final : public ItemBase
 		{
 			private:
 				Category& target;

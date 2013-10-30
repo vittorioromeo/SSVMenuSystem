@@ -17,7 +17,7 @@ namespace ssvms
 
 	namespace Items
 	{
-		class Slider : public ItemBase
+		class Slider final : public ItemBase
 		{
 			private:
 				using ValueGetter = ssvu::Func<std::string()>;

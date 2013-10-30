@@ -16,7 +16,7 @@ namespace ssvms
 
 	namespace Items
 	{
-		class Toggle : public ItemBase
+		class Toggle final : public ItemBase
 		{
 			private:
 				Predicate predicate;

@@ -15,7 +15,7 @@ namespace ssvms
 
 	namespace Items
 	{
-		class Single : public ItemBase
+		class Single final : public ItemBase
 		{
 			private:
 				Action action;
