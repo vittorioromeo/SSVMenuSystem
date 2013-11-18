@@ -7,7 +7,7 @@
 
 #include <functional>
 #include <string>
-#include <SSVUtils/SSVUtils.h>
+#include <SSVUtils/SSVUtils.hpp>
 #include "SSVMenuSystem/Menu/ItemBase.h"
 
 namespace ssvms
