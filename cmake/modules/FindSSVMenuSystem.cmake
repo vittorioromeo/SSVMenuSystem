@@ -1,5 +1,5 @@
 FIND_PATH(SSVMENUSYSTEM_INCLUDE_DIR
-  NAMES SSVMenuSystem/SSVMenuSystem.h
+  NAMES SSVMenuSystem/SSVMenuSystem.hpp
   PATH_SUFFIXES include/
   PATHS "${PROJECT_SOURCE_DIR}/../SSVMenuSystem/"
   "${PROJECT_SOURCE_DIR}/extlibs/SSVMenuSystem/"
