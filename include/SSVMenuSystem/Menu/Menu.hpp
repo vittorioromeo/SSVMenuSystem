@@ -42,8 +42,8 @@ namespace ssvms
 				category = &mCategory;
 			}
 
-			inline void clear()		{ categories.clear(); }
-			inline void update()	{ controller.update(); }
+			inline void clear() noexcept	{ categories.clear(); }
+			inline void update()			{ controller.update(); }
 
 			// Navigation
 			inline void goBack()	{ lastCategories.pop(); category = lastCategories.top(); }
