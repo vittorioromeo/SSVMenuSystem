@@ -31,10 +31,9 @@ namespace ssvms
 		public:
 			inline Category& createCategory(const std::string& mName)
 			{
-				auto result(new Category{*this, mName});
-				categories.emplace_back(result);
-				if(category == nullptr) setCategory(*result);
-				return *result;
+				auto& result(ssvu::getEmplaceUptr<Category>(categories, *this, mName));
+				if(category == nullptr) setCategory(result);
+				return result;
 			}
 			inline void setCategory(Category& mCategory)
 			{
