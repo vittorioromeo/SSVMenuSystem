@@ -37,7 +37,7 @@ namespace ssvms
 			}
 			inline void setCategory(Category& mCategory)
 			{
-				lastCategories.push(&mCategory);
+				lastCategories.emplace(&mCategory);
 				category = &mCategory;
 			}
 
