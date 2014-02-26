@@ -5,7 +5,7 @@
 #ifndef SSVMS_GLOBAL_TYPEDEFS
 #define SSVMS_GLOBAL_TYPEDEFS
 
-#include <SSVUtils/Global/Common.hpp>
+#include <SSVUtils/Core/Core.hpp>
 
 namespace ssvms
 {
