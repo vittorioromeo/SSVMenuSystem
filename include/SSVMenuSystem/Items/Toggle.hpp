@@ -5,10 +5,6 @@
 #ifndef SSVMS_ITEM_TOGGLE
 #define SSVMS_ITEM_TOGGLE
 
-#include <string>
-#include <functional>
-#include "SSVMenuSystem/Menu/ItemBase.hpp"
-
 namespace ssvms
 {
 	class Menu;

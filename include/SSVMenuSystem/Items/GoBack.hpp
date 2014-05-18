@@ -5,9 +5,6 @@
 #ifndef SSVMS_ITEM_GOBACK
 #define SSVMS_ITEM_GOBACK
 
-#include "SSVMenuSystem/Menu/ItemBase.hpp"
-#include "SSVMenuSystem/Menu/Menu.hpp"
-
 namespace ssvms
 {
 	class Category;

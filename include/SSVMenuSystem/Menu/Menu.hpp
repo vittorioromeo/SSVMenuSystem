@@ -5,20 +5,11 @@
 #ifndef SSVMS_MENU
 #define SSVMS_MENU
 
-#include <vector>
-#include <string>
-#include <memory>
-#include <stack>
-#include <functional>
-#include "SSVMenuSystem/Menu/ItemBase.hpp"
-#include "SSVMenuSystem/Menu/Category.hpp"
-#include "SSVMenuSystem/Menu/Controller.hpp"
-
 namespace ssvms
 {
 	class Menu
 	{
-		friend class Category;
+		friend Category;
 
 		private:
 			using Controller = Internal::Controller;

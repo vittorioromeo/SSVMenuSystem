@@ -5,11 +5,6 @@
 #ifndef SSVMS_ITEM_SLIDER
 #define SSVMS_ITEM_SLIDER
 
-#include <functional>
-#include <string>
-#include <SSVUtils/Core/Core.hpp>
-#include "SSVMenuSystem/Menu/ItemBase.hpp"
-
 namespace ssvms
 {
 	class Menu;

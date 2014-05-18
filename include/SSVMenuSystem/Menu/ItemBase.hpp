@@ -5,8 +5,6 @@
 #ifndef SSVMS_ITEMBASE
 #define SSVMS_ITEMBASE
 
-#include <string>
-
 namespace ssvms
 {
 	class Menu;

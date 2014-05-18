@@ -5,8 +5,6 @@
 #ifndef SSVMS_GLOBAL_TYPEDEFS
 #define SSVMS_GLOBAL_TYPEDEFS
 
-#include <SSVUtils/Core/Core.hpp>
-
 namespace ssvms
 {
 	using Action = ssvu::Action;

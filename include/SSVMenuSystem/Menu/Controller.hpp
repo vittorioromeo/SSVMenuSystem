@@ -5,13 +5,6 @@
 #ifndef SSVMS_MENUCONTROLLER
 #define SSVMS_MENUCONTROLLER
 
-#include <vector>
-#include <string>
-#include <memory>
-#include <functional>
-#include "SSVMenuSystem/Menu/ItemBase.hpp"
-#include "SSVMenuSystem/Menu/Category.hpp"
-
 namespace ssvms
 {
 	namespace Internal

@@ -5,10 +5,12 @@
 #ifndef SSVMENUSYSTEM
 #define SSVMENUSYSTEM
 
+#include <SSVUtils/Core/Core.hpp>
 #include "SSVMenuSystem/Global/Typedefs.hpp"
-#include "SSVMenuSystem/Menu/Menu.hpp"
-#include "SSVMenuSystem/Menu/Category.hpp"
 #include "SSVMenuSystem/Menu/ItemBase.hpp"
+#include "SSVMenuSystem/Menu/Category.hpp"
+#include "SSVMenuSystem/Menu/Controller.hpp"
+#include "SSVMenuSystem/Menu/Menu.hpp"
 #include "SSVMenuSystem/Items/GoBack.hpp"
 #include "SSVMenuSystem/Items/Goto.hpp"
 #include "SSVMenuSystem/Items/Single.hpp"

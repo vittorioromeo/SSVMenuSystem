@@ -5,9 +5,6 @@
 #ifndef SSVMS_ITEM_SINGLE
 #define SSVMS_ITEM_SINGLE
 
-#include <functional>
-#include "SSVMenuSystem/Menu/ItemBase.hpp"
-
 namespace ssvms
 {
 	class Menu;

@@ -5,9 +5,6 @@
 #ifndef SSVMS_CATEGORY
 #define SSVMS_CATEGORY
 
-#include <vector>
-#include <string>
-
 namespace ssvms
 {
 	class Menu;
@@ -15,7 +12,7 @@ namespace ssvms
 
 	class Category
 	{
-		friend class Menu;
+		friend Menu;
 
 		private:
 			Menu& menu;
