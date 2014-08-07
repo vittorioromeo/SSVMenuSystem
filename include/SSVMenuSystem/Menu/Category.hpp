@@ -31,7 +31,7 @@ namespace ssvms
 
 			template<typename T, typename... TArgs> inline T& create(const std::string& mName, TArgs&&... mArgs)
 			{
-				return ssvu::getEmplaceUptr<T>(items, menu, *this, mName, std::forward<TArgs>(mArgs)...);
+				return ssvu::getEmplaceUPtr<T>(items, menu, *this, mName, std::forward<TArgs>(mArgs)...);
 			}
 
 			inline void next()		{ ++index; wrapIndex(); }

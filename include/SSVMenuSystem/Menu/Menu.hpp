@@ -22,7 +22,7 @@ namespace ssvms
 		public:
 			inline Category& createCategory(const std::string& mName)
 			{
-				auto& result(ssvu::getEmplaceUptr<Category>(categories, *this, mName));
+				auto& result(ssvu::getEmplaceUPtr<Category>(categories, *this, mName));
 				if(category == nullptr) setCategory(result);
 				return result;
 			}
