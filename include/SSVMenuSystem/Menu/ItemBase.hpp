@@ -28,7 +28,7 @@ namespace ssvms
 
 			inline void setEnabled(bool mEnabled)		{ enabled = mEnabled; }
 
-			inline Menu& getMenu() const				{ return menu; }
+			inline auto& getMenu() const				{ return menu; }
 			inline virtual std::string getName() const	{ return name; }
 			inline bool isEnabled() const				{ return enabled; }
 	};

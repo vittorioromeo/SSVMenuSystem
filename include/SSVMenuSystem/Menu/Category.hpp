@@ -31,16 +31,16 @@ namespace ssvms
 
 			template<typename T, typename... TArgs> inline T& create(const std::string& mName, TArgs&&... mArgs)
 			{
-				return ssvu::getEmplaceUPtr<T>(items, menu, *this, mName, std::forward<TArgs>(mArgs)...);
+				return ssvu::getEmplaceUPtr<T>(items, menu, *this, mName, ssvu::fwd<TArgs>(mArgs)...);
 			}
 
 			inline void next()		{ ++index; wrapIndex(); }
 			inline void previous()	{ --index; wrapIndex(); }
 
-			inline const std::string& getName()	const		{ return name; }
-			inline ItemBase& getItem() const				{ return *(items[index]); }
-			inline const decltype(items)& getItems() const	{ return items; }
-			inline int getIdx()								{ return index; }
+			inline const auto& getName() const	{ return name; }
+			inline auto& getItem() const		{ return *(items[index]); }
+			inline const auto& getItems() const	{ return items; }
+			inline int getIdx()					{ return index; }
 	};
 }
 

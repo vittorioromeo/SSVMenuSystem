@@ -20,7 +20,7 @@ namespace ssvms
 			Controller controller;
 
 		public:
-			inline Category& createCategory(const std::string& mName)
+			inline auto& createCategory(const std::string& mName)
 			{
 				auto& result(ssvu::getEmplaceUPtr<Category>(categories, *this, mName));
 				if(category == nullptr) setCategory(result);
@@ -35,6 +35,13 @@ namespace ssvms
 			inline void clear() noexcept	{ categories.clear(); }
 			inline void update()			{ controller.update(); }
 
+			inline bool canGoBack() const								{ return lastCategories.size() > 1; }
+			inline auto& getCategory() const							{ return *category; }
+			inline auto& getItem() const								{ return category->getItem(); }
+			inline const decltype(category->items)& getItems() const	{ return category->getItems(); }
+			inline int getIdx() const									{ return category->getIdx(); }
+			inline auto& getMenuController()							{ return controller; }
+
 			// Navigation
 			inline void goBack()	{ lastCategories.pop(); category = lastCategories.top(); }
 			inline void next()		{ category->next(); }
@@ -42,17 +49,10 @@ namespace ssvms
 			inline void exec()		{ if(getItem().isEnabled()) getItem().exec(); }
 			inline void increase()	{ if(getItem().isEnabled()) getItem().increase(); }
 			inline void decrease()	{ if(getItem().isEnabled()) getItem().decrease(); }
-
-			inline bool canGoBack() const								{ return lastCategories.size() > 1; }
-			inline Category& getCategory() const						{ return *category; }
-			inline ItemBase& getItem() const							{ return category->getItem(); }
-			inline const decltype(category->items)& getItems() const	{ return category->getItems(); }
-			inline int getIdx() const									{ return category->getIdx(); }
-			inline Internal::Controller& getMenuController()			{ return controller; }
 	};
 
 	// Pipe operator allows to set predicates to enable/disable menu items
-	inline ItemBase& operator|(ItemBase& mLhs, Predicate mRhs) { mLhs.getMenu().getMenuController().enableItemWhen(mLhs, mRhs); return mLhs; }
+	inline auto& operator|(ItemBase& mLhs, Predicate mRhs) { mLhs.getMenu().getMenuController().enableItemWhen(mLhs, mRhs); return mLhs; }
 }
 
 #endif
