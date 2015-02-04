@@ -7,7 +7,7 @@
 
 namespace ssvms
 {
-	namespace Internal
+	namespace Impl
 	{
 		class Controller
 		{

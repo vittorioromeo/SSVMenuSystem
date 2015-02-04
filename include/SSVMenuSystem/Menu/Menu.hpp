@@ -12,7 +12,7 @@ namespace ssvms
 		friend Category;
 
 		private:
-			using Controller = Internal::Controller;
+			using Controller = Impl::Controller;
 
 			std::vector<std::unique_ptr<Category>> categories;
 			Category* category{nullptr};
