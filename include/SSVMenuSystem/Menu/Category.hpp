@@ -22,7 +22,7 @@ namespace ssvms
 
 			inline void wrapIndex()
 			{
-				if(index > static_cast<int>(items.size() - 1)) index = 0;
+				if(index > ssvu::toInt(items.size() - 1)) index = 0;
 				else if(index < 0) index = items.size() - 1;
 			}
 
