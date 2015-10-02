@@ -7,16 +7,19 @@
 
 namespace ssvms
 {
-	class Category;
+class Category;
 
-	namespace Items
-	{
-		struct GoBack final : public ItemBase
-		{
-			GoBack(Menu& mMenu, Category& mCategory, const std::string& mName) : ItemBase{mMenu, mCategory, mName} { }
-			inline void exec() override { menu.goBack(); }
-		};
-	}
+namespace Items
+{
+    struct GoBack final : public ItemBase
+    {
+        GoBack(Menu& mMenu, Category& mCategory, const std::string& mName)
+            : ItemBase{mMenu, mCategory, mName}
+        {
+        }
+        inline void exec() override { menu.goBack(); }
+    };
+}
 }
 
 #endif

@@ -7,8 +7,8 @@
 
 namespace ssvms
 {
-	using Action = ssvu::Action;
-	using Predicate = ssvu::Predicate;
+using Action = ssvu::Action;
+using Predicate = ssvu::Predicate;
 }
 
 #endif

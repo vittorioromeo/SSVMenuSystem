@@ -7,18 +7,24 @@
 
 namespace ssvms
 {
-	namespace Impl
-	{
-		class Controller
-		{
-			private:
-				std::vector<std::pair<ItemBase&, Predicate>> enableWhenPairs;
+namespace Impl
+{
+    class Controller
+    {
+    private:
+        std::vector<std::pair<ItemBase&, Predicate>> enableWhenPairs;
 
-			public:
-				inline void enableItemWhen(ItemBase& mItem, Predicate mPred) { enableWhenPairs.emplace_back(mItem, mPred); }
-				inline void update() { for(const auto& p : enableWhenPairs) p.first.setEnabled(p.second()); }
-		};
-	}
+    public:
+        inline void enableItemWhen(ItemBase& mItem, Predicate mPred)
+        {
+            enableWhenPairs.emplace_back(mItem, mPred);
+        }
+        inline void update()
+        {
+            for(const auto& p : enableWhenPairs) p.first.setEnabled(p.second());
+        }
+    };
+}
 }
 
 #endif

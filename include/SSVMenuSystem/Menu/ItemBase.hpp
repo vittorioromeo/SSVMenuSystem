@@ -7,31 +7,34 @@
 
 namespace ssvms
 {
-	class Menu;
-	class Category;
+class Menu;
+class Category;
 
-	class ItemBase
-	{
-		protected:
-			Menu& menu;
-			Category& category;
-			std::string name;
-			bool enabled{true};
+class ItemBase
+{
+protected:
+    Menu& menu;
+    Category& category;
+    std::string name;
+    bool enabled{true};
 
-		public:
-			ItemBase(Menu& mMenu, Category& mCategory, const std::string& mName) : menu(mMenu), category(mCategory), name{mName} { }
-			inline virtual ~ItemBase() { }
+public:
+    ItemBase(Menu& mMenu, Category& mCategory, const std::string& mName)
+        : menu(mMenu), category(mCategory), name{mName}
+    {
+    }
+    inline virtual ~ItemBase() {}
 
-			inline virtual void exec() { }
-			inline virtual void increase() { }
-			inline virtual void decrease() { }
+    inline virtual void exec() {}
+    inline virtual void increase() {}
+    inline virtual void decrease() {}
 
-			inline void setEnabled(bool mEnabled)		{ enabled = mEnabled; }
+    inline void setEnabled(bool mEnabled) { enabled = mEnabled; }
 
-			inline auto& getMenu() const				{ return menu; }
-			inline virtual std::string getName() const	{ return name; }
-			inline bool isEnabled() const				{ return enabled; }
-	};
+    inline auto& getMenu() const { return menu; }
+    inline virtual std::string getName() const { return name; }
+    inline bool isEnabled() const { return enabled; }
+};
 }
 
 #endif

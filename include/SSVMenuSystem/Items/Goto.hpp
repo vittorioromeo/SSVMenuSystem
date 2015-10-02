@@ -7,20 +7,24 @@
 
 namespace ssvms
 {
-	class Category;
+class Category;
 
-	namespace Items
-	{
-		class Goto final : public ItemBase
-		{
-			private:
-				Category& target;
+namespace Items
+{
+    class Goto final : public ItemBase
+    {
+    private:
+        Category& target;
 
-			public:
-				Goto(Menu& mMenu, Category& mCategory, const std::string& mName, Category& mTarget) : ItemBase{mMenu, mCategory, mName}, target(mTarget) { }
-				inline void exec() override { menu.setCategory(target); }
-		};
-	}
+    public:
+        Goto(Menu& mMenu, Category& mCategory, const std::string& mName,
+        Category& mTarget)
+            : ItemBase{mMenu, mCategory, mName}, target(mTarget)
+        {
+        }
+        inline void exec() override { menu.setCategory(target); }
+    };
+}
 }
 
 #endif
