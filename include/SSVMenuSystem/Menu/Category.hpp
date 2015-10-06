@@ -7,55 +7,56 @@
 
 namespace ssvms
 {
-class Menu;
-class ItemBase;
+    class Menu;
+    class ItemBase;
 
-class Category
-{
-    friend Menu;
-
-private:
-    Menu& menu;
-    std::string name;
-    std::vector<std::unique_ptr<ItemBase>> items;
-    int index{0};
-
-    inline void wrapIndex()
+    class Category
     {
-        if(index > ssvu::toInt(items.size() - 1))
-            index = 0;
-        else if(index < 0)
-            index = items.size() - 1;
-    }
+        friend Menu;
 
-public:
-    Category(Menu& mMenu, const std::string& mName) : menu(mMenu), name{mName}
-    {
-    }
+    private:
+        Menu& menu;
+        std::string name;
+        std::vector<std::unique_ptr<ItemBase>> items;
+        int index{0};
 
-    template <typename T, typename... TArgs>
-    inline T& create(const std::string& mName, TArgs&&... mArgs)
-    {
-        return ssvu::getEmplaceUPtr<T>(
-        items, menu, *this, mName, FWD(mArgs)...);
-    }
+        inline void wrapIndex()
+        {
+            if(index > ssvu::toInt(items.size() - 1))
+                index = 0;
+            else if(index < 0)
+                index = items.size() - 1;
+        }
 
-    inline void next()
-    {
-        ++index;
-        wrapIndex();
-    }
-    inline void previous()
-    {
-        --index;
-        wrapIndex();
-    }
+    public:
+        Category(Menu& mMenu, const std::string& mName)
+            : menu(mMenu), name{mName}
+        {
+        }
 
-    inline const auto& getName() const { return name; }
-    inline auto& getItem() const { return *(items[index]); }
-    inline const auto& getItems() const { return items; }
-    inline int getIdx() { return index; }
-};
+        template <typename T, typename... TArgs>
+        inline T& create(const std::string& mName, TArgs&&... mArgs)
+        {
+            return ssvu::getEmplaceUPtr<T>(
+                items, menu, *this, mName, FWD(mArgs)...);
+        }
+
+        inline void next()
+        {
+            ++index;
+            wrapIndex();
+        }
+        inline void previous()
+        {
+            --index;
+            wrapIndex();
+        }
+
+        inline const auto& getName() const { return name; }
+        inline auto& getItem() const { return *(items[index]); }
+        inline const auto& getItems() const { return items; }
+        inline int getIdx() { return index; }
+    };
 }
 
 #endif

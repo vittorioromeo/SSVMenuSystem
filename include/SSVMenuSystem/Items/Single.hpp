@@ -7,25 +7,25 @@
 
 namespace ssvms
 {
-class Menu;
-class Category;
+    class Menu;
+    class Category;
 
-namespace Items
-{
-    class Single final : public ItemBase
+    namespace Items
     {
-    private:
-        Action action;
-
-    public:
-        Single(Menu& mMenu, Category& mCategory, const std::string& mName,
-        Action mAction)
-            : ItemBase{mMenu, mCategory, mName}, action{mAction}
+        class Single final : public ItemBase
         {
-        }
-        inline void exec() override { action(); }
-    };
-}
+        private:
+            Action action;
+
+        public:
+            Single(Menu& mMenu, Category& mCategory, const std::string& mName,
+                Action mAction)
+                : ItemBase{mMenu, mCategory, mName}, action{mAction}
+            {
+            }
+            inline void exec() override { action(); }
+        };
+    }
 }
 
 #endif
