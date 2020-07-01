@@ -5,10 +5,12 @@
 #ifndef SSVMS_GLOBAL_TYPEDEFS
 #define SSVMS_GLOBAL_TYPEDEFS
 
+#include <functional>
+
 namespace ssvms
 {
-    using Action = ssvu::Action;
-    using Predicate = ssvu::Predicate;
+    using Action = std::function<void()>;
+    using Predicate = std::function<bool()>;
 }
 
 #endif

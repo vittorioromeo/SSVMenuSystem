@@ -5,6 +5,14 @@
 #ifndef SSVMS_CATEGORY
 #define SSVMS_CATEGORY
 
+#include "SSVMenuSystem/Global/Typedefs.hpp"
+
+#include <SSVUtils/Core/Common/Casts.hpp>
+
+#include <string>
+#include <vector>
+#include <memory>
+
 namespace ssvms
 {
     class Menu;
@@ -37,8 +45,8 @@ namespace ssvms
         template <typename T, typename... TArgs>
         inline T& create(const std::string& mName, TArgs&&... mArgs)
         {
-            return ssvu::getEmplaceUPtr<T>(
-                items, menu, *this, mName, FWD(mArgs)...);
+            return *items.emplace_back(
+                std::make_unique<T>(menu, *this, mName, FWD(mArgs)...));
         }
 
         inline void next()

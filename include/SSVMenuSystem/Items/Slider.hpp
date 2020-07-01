@@ -5,6 +5,13 @@
 #ifndef SSVMS_ITEM_SLIDER
 #define SSVMS_ITEM_SLIDER
 
+#include "SSVMenuSystem/Global/Typedefs.hpp"
+#include "SSVMenuSystem/Menu/ItemBase.hpp"
+#include "SSVMenuSystem/Menu/Menu.hpp"
+
+#include <functional>
+#include <string>
+
 namespace ssvms
 {
     class Menu;
@@ -15,7 +22,7 @@ namespace ssvms
         class Slider final : public ItemBase
         {
         private:
-            using ValueGetter = ssvu::Func<std::string()>;
+            using ValueGetter = std::function<std::string()>;
             ValueGetter valueGetter;
             Action increaseAction, decreaseAction;
 

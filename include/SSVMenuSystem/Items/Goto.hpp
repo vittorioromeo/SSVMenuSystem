@@ -5,6 +5,12 @@
 #ifndef SSVMS_ITEM_GOTO
 #define SSVMS_ITEM_GOTO
 
+#include "SSVMenuSystem/Global/Typedefs.hpp"
+#include "SSVMenuSystem/Menu/ItemBase.hpp"
+#include "SSVMenuSystem/Menu/Menu.hpp"
+
+#include <string>
+
 namespace ssvms
 {
     class Category;

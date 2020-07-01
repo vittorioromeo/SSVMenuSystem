@@ -5,6 +5,11 @@
 #ifndef SSVMS_MENUCONTROLLER
 #define SSVMS_MENUCONTROLLER
 
+#include "SSVMenuSystem/Global/Typedefs.hpp"
+
+#include <vector>
+#include <utility>
+
 namespace ssvms
 {
     namespace Impl

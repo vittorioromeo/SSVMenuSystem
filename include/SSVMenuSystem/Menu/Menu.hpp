@@ -5,6 +5,12 @@
 #ifndef SSVMS_MENU
 #define SSVMS_MENU
 
+#include "SSVMenuSystem/Menu/Controller.hpp"
+
+#include <string>
+#include <stack>
+#include <memory>
+
 namespace ssvms
 {
     class Menu
@@ -22,8 +28,9 @@ namespace ssvms
     public:
         inline auto& createCategory(const std::string& mName)
         {
-            auto& result(
-                ssvu::getEmplaceUPtr<Category>(categories, *this, mName));
+            auto& result(*categories.emplace_back(
+                std::make_unique<Category>(*this, mName)));
+
             if(category == nullptr) setCategory(result);
             return result;
         }

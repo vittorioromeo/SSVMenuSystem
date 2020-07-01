@@ -5,7 +5,6 @@
 #ifndef SSVMENUSYSTEM
 #define SSVMENUSYSTEM
 
-#include <SSVUtils/Core/Core.hpp>
 #include "SSVMenuSystem/Global/Typedefs.hpp"
 #include "SSVMenuSystem/Menu/ItemBase.hpp"
 #include "SSVMenuSystem/Menu/Category.hpp"
