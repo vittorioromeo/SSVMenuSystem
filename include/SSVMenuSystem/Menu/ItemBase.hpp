@@ -15,6 +15,8 @@ namespace ssvms
     class ItemBase
     {
     protected:
+        using KKey = sf::Keyboard::Key;
+        using MBtn = sf::Mouse::Button;
         Menu& menu;
         Category& category;
         std::string name;
@@ -30,6 +32,11 @@ namespace ssvms
         inline virtual void exec() {}
         inline virtual void increase() {}
         inline virtual void decrease() {}
+
+        //only used for BindControl
+        inline virtual bool erase() { return false; }
+        inline virtual bool newBind(const KKey key = KKey::Unknown, const MBtn btn = MBtn::Unknown) { (void)(key); (void)(btn); return 0; }
+        inline virtual bool isWaitingForBind() { return false; }
 
         inline void setEnabled(bool mEnabled) { enabled = mEnabled; }
 

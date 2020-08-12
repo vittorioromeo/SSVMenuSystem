@@ -73,6 +73,12 @@ namespace ssvms
         {
             if(getItem().isEnabled()) getItem().decrease();
         }
+        inline bool erase()
+        {
+            if(getItem().isEnabled())
+                return getItem().erase();
+            return false;
+        }
     };
 
     // Pipe operator allows to set predicates to enable/disable menu items

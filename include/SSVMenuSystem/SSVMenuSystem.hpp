@@ -15,5 +15,6 @@
 #include "SSVMenuSystem/Items/Single.hpp"
 #include "SSVMenuSystem/Items/Slider.hpp"
 #include "SSVMenuSystem/Items/Toggle.hpp"
+#include "SSVMenuSystem/Items/BindControl.hpp"
 
 #endif
