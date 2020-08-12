@@ -35,7 +35,7 @@ namespace ssvms
 
         //only used for BindControl
         inline virtual bool erase() { return false; }
-        inline virtual bool newBind(const KKey key = KKey::Unknown, const MBtn btn = MBtn::Unknown) { (void)(key); (void)(btn); return 0; }
+        inline virtual bool newBind(const KKey key = KKey::Unknown, const MBtn btn = MBtn::Left) { (void)(key); (void)(btn); return 0; }
         inline virtual bool isWaitingForBind() { return false; }
 
         inline void setEnabled(bool mEnabled) { enabled = mEnabled; }

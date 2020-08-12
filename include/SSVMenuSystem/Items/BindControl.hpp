@@ -40,7 +40,7 @@ namespace ssvms
             
             bool waitingForBind{false};
             KKey setKey{KKey::Unknown};
-            MBtn setBtn{MBtn::Unknown};
+            MBtn setBtn{MBtn::Left};
             
             inline int getRealSize(const std::vector<Combo> combos) const
             {
@@ -100,7 +100,7 @@ namespace ssvms
                 hexagonGame.refreshTrigger(triggerGetter(), triggerID);
                 
                 setKey = KKey::Unknown;
-                setBtn = MBtn::Unknown;
+                setBtn = MBtn::Left;
                 waitingForBind = false;
                 return true;
             }
