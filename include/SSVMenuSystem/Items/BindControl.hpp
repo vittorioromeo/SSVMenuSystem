@@ -34,8 +34,10 @@ namespace ssvms
             TriggerGetter triggerGetter;
             SizeGetter sizeGetter;
 			Action getBind, addBind, clearBind;
-            GameState& game;            //GameState and HexagonGame have two separate input managers
-            HexagonGame& hexagonGame;   //that must both be refreshed when a new bind is set
+            GameState& game;
+#ifdef OPEN_HEXAGON
+            HexagonGame& hexagonGame;
+#endif
             TNum triggerID;
             
             bool waitingForBind{false};
@@ -54,14 +56,22 @@ namespace ssvms
 			template <typename TFuncGet, typename TFuncSet, typename TFuncClear>
 			BindControl(Menu& mMenu, Category& mCategory, const std::string& mName,
 						TFuncGet mFuncGet, TFuncSet mFuncSet, TFuncClear mFuncClear,
-                        GameState& mGame, HexagonGame& mHexagonGame, TNum mtriggerID)
+                        GameState& mGame,
+#ifdef OPEN_HEXAGON
+                        HexagonGame& mHexagonGame,
+#endif
+                        TNum mtriggerID)
 				: ItemBase{mMenu, mCategory, mName},
                   triggerGetter{[=, this] { return mFuncGet(); }},
                   sizeGetter{[=, this] { return getRealSize(triggerGetter().getCombos()); }},
 				  getBind{[=] { mFuncGet(); }},
 				  addBind{[=, this] { mFuncSet(setKey, setBtn, sizeGetter()); }},
                   clearBind{[=, this] { mFuncClear(sizeGetter()); }},
-                  game{mGame}, hexagonGame{mHexagonGame}, triggerID{mtriggerID}
+                  game{mGame},
+#ifdef OPEN_HEXAGON
+                  hexagonGame{mHexagonGame},
+#endif
+                  triggerID{mtriggerID}
 			{
 			}
             
@@ -80,7 +90,9 @@ namespace ssvms
                 
                 clearBind();
                 game.refreshTrigger(triggerGetter(), triggerID);
+#ifdef OPEN_HEXAGON
                 hexagonGame.refreshTrigger(triggerGetter(), triggerID);
+#endif
                 return true;
             }
             
@@ -89,7 +101,11 @@ namespace ssvms
                 const std::vector<Combo> combos = triggerGetter().getCombos();
                 
                 //check if the desired key/btn has already been assigned
+#ifdef OPEN_HEXAGON
                 if(game.isBindAssigned(key, btn) || hexagonGame.isBindAssigned(key, btn))
+#else
+                if(game.isBindAssigned(key, btn))
+#endif
                     return false;
 
                 setKey = key;
@@ -97,7 +113,9 @@ namespace ssvms
                 addBind();
                 
                 game.refreshTrigger(triggerGetter(), triggerID);
+#ifdef OPEN_HEXAGON
                 hexagonGame.refreshTrigger(triggerGetter(), triggerID);
+#endif
                 
                 setKey = KKey::Unknown;
                 setBtn = MBtn::Left;
