@@ -22,11 +22,13 @@ namespace ssvms
 		{
 		private:
             using GameState = ssvs::GameState;
+#ifdef OPEN_HEXAGON
             using HexagonGame = hg::HexagonGame;
+#endif
 			using Combo = ssvs::Input::Combo;
 			using KKey = ssvs::KKey;
 			using MBtn = ssvs::MBtn;
-            using TNum = ssvs::Input::TNum;
+            using Tid = ssvs::Input::Tid;
             using Trigger = ssvs::Input::Trigger;
 			using TriggerGetter = std::function<Trigger()>;
             using SizeGetter = std::function<int()>;
@@ -38,7 +40,7 @@ namespace ssvms
 #ifdef OPEN_HEXAGON
             HexagonGame& hexagonGame;
 #endif
-            TNum triggerID;
+            Tid triggerID;
             
             bool waitingForBind{false};
             KKey setKey{KKey::Unknown};
@@ -58,9 +60,9 @@ namespace ssvms
 						TFuncGet mFuncGet, TFuncSet mFuncSet, TFuncClear mFuncClear,
                         GameState& mGame,
 #ifdef OPEN_HEXAGON
-                        HexagonGame& mHexagonGame,
+						HexagonGame& mHexagonGame,
 #endif
-                        TNum mtriggerID)
+						Tid mtriggerID)
 				: ItemBase{mMenu, mCategory, mName},
                   triggerGetter{[=, this] { return mFuncGet(); }},
                   sizeGetter{[=, this] { return getRealSize(triggerGetter().getCombos()); }},
@@ -104,7 +106,7 @@ namespace ssvms
 #ifdef OPEN_HEXAGON
                 if(game.isBindAssigned(key, btn) || hexagonGame.isBindAssigned(key, btn))
 #else
-                if(game.isBindAssigned(key, btn))
+				if(game.isBindAssigned(key, btn))
 #endif
                     return false;
 
