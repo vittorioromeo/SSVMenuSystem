@@ -6,6 +6,7 @@
 #define SSVMS_ITEM_BIND
 
 #include "SSVMenuSystem/Global/Typedefs.hpp"
+#include "SSVOpenHexagon/Core/Joystick.hpp"
 #include "SSVMenuSystem/Menu/ItemBase.hpp"
 #include "SSVMenuSystem/Menu/Menu.hpp"
 
@@ -22,23 +23,27 @@ namespace ssvms
 		{
 		private:
             using GameState = ssvs::GameState;
+#ifdef OPEN_HEXAGON
             using HexagonGame = hg::HexagonGame;
+#endif
 			using Combo = ssvs::Input::Combo;
 			using KKey = ssvs::KKey;
 			using MBtn = ssvs::MBtn;
-            using TNum = ssvs::Input::TNum;
+            using Tid = ssvs::Input::Tid;
             using Trigger = ssvs::Input::Trigger;
 			using TriggerGetter = std::function<Trigger()>;
             using SizeGetter = std::function<int()>;
+            using BindReturn = std::function<std::tuple<int, Trigger>()>;
             
             TriggerGetter triggerGetter;
             SizeGetter sizeGetter;
-			Action getBind, addBind, clearBind;
+            BindReturn addBind;
+			Action clearBind;
             GameState& game;
 #ifdef OPEN_HEXAGON
             HexagonGame& hexagonGame;
 #endif
-            TNum triggerID;
+            Tid triggerID;
             
             bool waitingForBind{false};
             KKey setKey{KKey::Unknown};
@@ -58,14 +63,13 @@ namespace ssvms
 						TFuncGet mFuncGet, TFuncSet mFuncSet, TFuncClear mFuncClear,
                         GameState& mGame,
 #ifdef OPEN_HEXAGON
-                        HexagonGame& mHexagonGame,
+						HexagonGame& mHexagonGame,
 #endif
-                        TNum mtriggerID)
+						Tid mtriggerID)
 				: ItemBase{mMenu, mCategory, mName},
                   triggerGetter{[=, this] { return mFuncGet(); }},
                   sizeGetter{[=, this] { return getRealSize(triggerGetter().getCombos()); }},
-				  getBind{[=] { mFuncGet(); }},
-				  addBind{[=, this] { mFuncSet(setKey, setBtn, sizeGetter()); }},
+				  addBind{[=, this] { return mFuncSet(setKey, setBtn, sizeGetter()); }},
                   clearBind{[=, this] { mFuncClear(sizeGetter()); }},
                   game{mGame},
 #ifdef OPEN_HEXAGON
@@ -82,7 +86,7 @@ namespace ssvms
                 else
                     waitingForBind = false;
             }
-            inline bool isWaitingForBind() override { return waitingForBind; }
+            inline int isWaitingForBind() override { return waitingForBind ? 1 : 0; }
 			inline bool erase() override
             {
                 const int size = sizeGetter();
@@ -95,32 +99,34 @@ namespace ssvms
 #endif
                 return true;
             }
-            
-            inline bool newBind(const KKey key, const MBtn btn) override
-            {
-                const std::vector<Combo> combos = triggerGetter().getCombos();
-                
-                //check if the desired key/btn has already been assigned
-#ifdef OPEN_HEXAGON
-                if(game.isBindAssigned(key, btn) || hexagonGame.isBindAssigned(key, btn))
-#else
-                if(game.isBindAssigned(key, btn))
-#endif
-                    return false;
 
+            inline void newBind(const KKey key, const MBtn btn, const int joy) override
+            {
+                (void)(joy);
+
+                // assign the pressed key to the config value
                 setKey = key;
                 setBtn = btn;
-                addBind();
-                
+                auto [unboundID, trig] = addBind();
+
+                // key was assigned to another function and was unbound.
+                // This trigger must be refreshed as well
+                if(unboundID > -1)
+                {
+                    game.refreshTrigger(trig, Tid(unboundID));
+#ifdef OPEN_HEXAGON
+                    hexagonGame.refreshTrigger(trig, Tid(unboundID));
+#endif
+                }
+
+                // apply the new bind in game
                 game.refreshTrigger(triggerGetter(), triggerID);
 #ifdef OPEN_HEXAGON
                 hexagonGame.refreshTrigger(triggerGetter(), triggerID);
 #endif
-                
-                setKey = KKey::Unknown;
-                setBtn = MBtn::Left;
+
+                // finalize
                 waitingForBind = false;
-                return true;
             }
 
 			inline std::string getName() const override
@@ -164,6 +170,82 @@ namespace ssvms
 				return name + ": " + bindNames;
 			}
 		};
+
+
+        class JoystickBindControl final : public ItemBase
+        {
+        private:
+            using Jid = hg::Joystick::Jid;
+            using ValueGetter = std::function<int()>;
+
+            ValueGetter valueGetter, setButton;
+            Jid buttonID;
+
+            bool waitingForBind{false};
+            int pressedButton{33};
+
+        public:
+            template <typename TFuncGet, typename TFuncSet>
+            JoystickBindControl(Menu& mMenu, Category& mCategory, const std::string& mName,
+                        TFuncGet mFuncGet, TFuncSet mFuncSet, Jid mButtonID)
+                : ItemBase{mMenu, mCategory, mName},
+                  valueGetter{[=] { return mFuncGet(); }},
+                  setButton{[=, this] { return mFuncSet(pressedButton); }},
+                  buttonID{mButtonID}
+            {
+            }
+
+            inline void exec() override
+            {
+                waitingForBind = !waitingForBind;
+            }
+            inline int isWaitingForBind() override { return waitingForBind ? 2 : 0; }
+            inline bool erase() override
+            {
+                if(valueGetter() == 33) return false;
+
+                pressedButton = 33;
+                setButton();
+                return true;
+            }
+
+            inline void newBind(const KKey key, const MBtn btn, const int joy) override
+            {
+                (void)(key);
+                (void)(btn);
+
+                // save the new key in config
+                pressedButton = joy;
+                int unboundID = setButton();
+
+                // if the key was bound to another function and it was reassigned
+                // make sure we also update the unbound joystick button
+                if(unboundID > -1)
+                    hg::Joystick::unbindJoystickButton(unboundID);
+
+                // update the bind we customized
+                hg::Joystick::setJoystickBind(joy, buttonID);
+
+                // finalize
+                waitingForBind = false;
+            }
+
+            inline std::string getName() const override
+            {
+                std::string bindNames;
+                int value = valueGetter();
+
+                if(value == 33)
+                    bindNames = "";
+                else
+                    bindNames = ssvu::toStr(value);
+
+                if(waitingForBind)
+                    bindNames += "_";
+
+                return name + ": " + bindNames;
+            }
+        };
 	}
 }
 
