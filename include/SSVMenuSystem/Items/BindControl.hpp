@@ -104,6 +104,28 @@ namespace ssvms
             {
                 (void)(joy);
 
+                // stop if the pressed key is already assigned to this bind
+                std::vector Combos = triggerGetter().getCombos();
+                int size = sizeGetter();
+                if(key > KKey::Unknown)
+                {
+                    for(int i = 0; i < size; ++i)
+                        if(Combos[i].getKeys()[int(key) + 1])
+                        {
+                            waitingForBind = false;
+                            return;
+                        }
+                }
+                else
+                {
+                    for(int i = 0; i < size; ++i)
+                        if(Combos[i].getBtns()[int(btn) + 1])
+                        {
+                            waitingForBind = false;
+                            return;
+                        }
+                }
+
                 // assign the pressed key to the config value
                 setKey = key;
                 setBtn = btn;
@@ -142,7 +164,7 @@ namespace ssvms
 				for(i = 0; i < size; ++i)
                 {
                     keyBind = combos[i].getKeys();
-					for(j = 0; j <= KKey::KeyCount; ++j) //FXX keys and upwards are not considered
+					for(j = 0; j <= KKey::KeyCount; ++j)
 					{
 						if(keyBind[j])
                         {
@@ -213,6 +235,13 @@ namespace ssvms
             {
                 (void)(key);
                 (void)(btn);
+
+                // stop if the pressed button is already assigned to this bind
+                if(joy == valueGetter())
+                {
+                    waitingForBind = false;
+                    return;
+                }
 
                 // save the new key in config
                 pressedButton = joy;
