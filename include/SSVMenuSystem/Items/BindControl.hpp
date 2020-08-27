@@ -6,9 +6,12 @@
 #define SSVMS_ITEM_BIND
 
 #include "SSVMenuSystem/Global/Typedefs.hpp"
-#include "SSVOpenHexagon/Core/Joystick.hpp"
 #include "SSVMenuSystem/Menu/ItemBase.hpp"
 #include "SSVMenuSystem/Menu/Menu.hpp"
+
+#ifdef OPEN_HEXAGON
+#include "SSVOpenHexagon/Core/Joystick.hpp"
+#endif
 
 #include <string>
 
@@ -19,6 +22,12 @@ namespace ssvms
 
 	namespace Items
 	{
+        enum BindType
+        {
+            KeyboardBind = 0,
+            JoystickBind
+        };
+
 		class BindControl final : public ItemBase
 		{
 		private:
@@ -73,9 +82,9 @@ namespace ssvms
                   clearBind{[=, this] { mFuncClear(sizeGetter()); }},
                   game{mGame},
 #ifdef OPEN_HEXAGON
-                  hexagonGame{mHexagonGame},
+				  hexagonGame{mHexagonGame},
 #endif
-                  triggerID{mtriggerID}
+				  triggerID{mtriggerID}
 			{
 			}
             
@@ -86,7 +95,7 @@ namespace ssvms
                 else
                     waitingForBind = false;
             }
-            inline int isWaitingForBind() override { return waitingForBind ? 1 : 0; }
+            inline int isWaitingForBind() override { return waitingForBind ? KeyboardBind : 0; }
 			inline bool erase() override
             {
                 const int size = sizeGetter();
@@ -100,10 +109,8 @@ namespace ssvms
                 return true;
             }
 
-            inline void newBind(const KKey key, const MBtn btn, const int joy) override
+            inline void newKeyboardBind(const KKey key, const MBtn btn) override
             {
-                (void)(joy);
-
                 // stop if the pressed key is already assigned to this bind
                 std::vector Combos = triggerGetter().getCombos();
                 int size = sizeGetter();
@@ -194,6 +201,7 @@ namespace ssvms
 		};
 
 
+#ifdef OPEN_HEXAGON
         class JoystickBindControl final : public ItemBase
         {
         private:
@@ -221,7 +229,7 @@ namespace ssvms
             {
                 waitingForBind = !waitingForBind;
             }
-            inline int isWaitingForBind() override { return waitingForBind ? 2 : 0; }
+            inline int isWaitingForBind() override { return waitingForBind ? JoystickBind : 0; }
             inline bool erase() override
             {
                 if(valueGetter() == 33) return false;
@@ -231,11 +239,8 @@ namespace ssvms
                 return true;
             }
 
-            inline void newBind(const KKey key, const MBtn btn, const int joy) override
+            inline void newJoystickBind(const int joy) override
             {
-                (void)(key);
-                (void)(btn);
-
                 // stop if the pressed button is already assigned to this bind
                 if(joy == valueGetter())
                 {
@@ -249,8 +254,7 @@ namespace ssvms
 
                 // if the key was bound to another function and it was reassigned
                 // make sure we also update the unbound joystick button
-                if(unboundID > -1)
-                    hg::Joystick::unbindJoystickButton(unboundID);
+                if(unboundID > -1) hg::Joystick::unbindJoystickButton(unboundID);
 
                 // update the bind we customized
                 hg::Joystick::setJoystickBind(joy, buttonID);
@@ -275,6 +279,8 @@ namespace ssvms
                 return name + ": " + bindNames;
             }
         };
+#endif
+
 	}
 }
 

@@ -35,10 +35,8 @@ namespace ssvms
 
         //only used for BindControl
         inline virtual bool erase() { return false; }
-        inline virtual void newBind(const KKey key = KKey::Unknown, const MBtn btn = MBtn::Left, const int joy = -1)
-        {
-            (void)(key); (void)(btn); (void)(joy);
-        }
+        inline virtual void newKeyboardBind(const KKey key = KKey::Unknown, const MBtn btn = MBtn::Left) { (void)(key); (void)(btn); } // wanted to overload these two
+        inline virtual void newJoystickBind(const int joy = -1) { (void)(joy); }                                                       // but compiler throws too may warnings
         inline virtual int isWaitingForBind() { return 0; }
 
         inline void setEnabled(bool mEnabled) { enabled = mEnabled; }
