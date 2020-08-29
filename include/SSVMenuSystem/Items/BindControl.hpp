@@ -24,7 +24,7 @@ namespace ssvms
 	{
         enum BindType
         {
-            KeyboardBind = 0,
+            KeyboardBind = 1,
             JoystickBind
         };
 
