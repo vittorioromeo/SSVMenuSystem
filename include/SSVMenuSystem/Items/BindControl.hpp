@@ -11,6 +11,8 @@
 
 #ifdef OPEN_HEXAGON
 #include "SSVOpenHexagon/Core/Joystick.hpp"
+#define MS_VENDORID 1118
+#define SONY_VENDORID 1356
 #endif
 
 #include <string>
@@ -213,6 +215,11 @@ namespace ssvms
 
             bool waitingForBind{false};
             int pressedButton{33};
+			
+			const std::string buttonsNames[12][2] = {
+				{ "A", "SQUARE" }, 			{ "B", "CROSS" }, 				{ "X", "CIRCLE" }, 		{ "Y", "TRIANGLE" },
+				{ "LB", "L1" }, 			{ "RB", "R1" }, 				{ "BACK", "L2" }, 		{ "START", "R2" },
+				{ "LEFT STICK", "SELECT" }, { "RIGHT STICK", "START" }, 	{ "LT", "LEFT STICK" }, { "RT", "RIGHT STICK" } };
 
         public:
             template <typename TFuncGet, typename TFuncSet>
@@ -266,12 +273,15 @@ namespace ssvms
             inline std::string getName() const override
             {
                 std::string bindNames;
-                int value = valueGetter();
-
-                if(value == 33)
-                    bindNames = "";
-                else
-                    bindNames = ssvu::toStr(value);
+                unsigned int value = valueGetter(),
+							 vendorId = sf::Joystick::isConnected(0) ? sf::Joystick::getIdentification(0).vendorId : 0;
+				
+				if(vendorId == MS_VENDORID) // MS controller
+					bindNames = buttonsNames[value][0];
+				else if(vendorId == SONY_VENDORID) // PS controller
+					bindNames = buttonsNames[value][1];
+				else
+					bindNames = value == 33 ? "" : ssvu::toStr(value);
 
                 if(waitingForBind)
                     bindNames += "_";
@@ -280,7 +290,6 @@ namespace ssvms
             }
         };
 #endif
-
 	}
 }
 
