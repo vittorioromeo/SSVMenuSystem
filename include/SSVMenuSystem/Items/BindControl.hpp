@@ -273,15 +273,26 @@ namespace ssvms
             inline std::string getName() const override
             {
                 std::string bindNames;
-                unsigned int value = valueGetter(),
-							 vendorId = sf::Joystick::isConnected(0) ? sf::Joystick::getIdentification(0).vendorId : 0;
+                unsigned int value = valueGetter();
 				
-				if(vendorId == MS_VENDORID) // MS controller
-					bindNames = buttonsNames[value][0];
-				else if(vendorId == SONY_VENDORID) // PS controller
-					bindNames = buttonsNames[value][1];
+				if(value == 33)
+					bindNames = "";
 				else
-					bindNames = value == 33 ? "" : ssvu::toStr(value);
+				{
+					unsigned int vendorId = sf::Joystick::isConnected(0) ? sf::Joystick::getIdentification(0).vendorId : 0;
+					switch(vendorId)
+					{
+					case MS_VENDORID:
+						bindNames = value >= 12 ? "" : buttonsNames[value][0];
+						break;
+					case SONY_VENDORID:
+						bindNames = value >= 12 ? "" : buttonsNames[value][1];
+						break;
+					default:
+						bindNames = ssvu::toStr(value);
+						break;
+					}
+				}
 
                 if(waitingForBind)
                     bindNames += "_";
