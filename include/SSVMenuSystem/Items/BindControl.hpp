@@ -11,8 +11,8 @@
 
 #ifdef OPEN_HEXAGON
 #include "SSVOpenHexagon/Core/Joystick.hpp"
-#define MS_VENDORID 1118
-#define SONY_VENDORID 1356
+#define MS_VENDOR_ID 0x045E
+#define SONY_VENDOR_ID 0x54C
 #endif
 
 #include <string>
@@ -40,11 +40,10 @@ namespace ssvms
 			using Combo = ssvs::Input::Combo;
 			using KKey = ssvs::KKey;
 			using MBtn = ssvs::MBtn;
-            using Tid = ssvs::Input::Tid;
             using Trigger = ssvs::Input::Trigger;
 			using TriggerGetter = std::function<Trigger()>;
             using SizeGetter = std::function<int()>;
-            using BindReturn = std::function<std::tuple<int, Trigger>()>;
+            using BindReturn = std::function<std::pair<int, Trigger>()>;
             
             TriggerGetter triggerGetter;
             SizeGetter sizeGetter;
@@ -54,13 +53,13 @@ namespace ssvms
 #ifdef OPEN_HEXAGON
             HexagonGame& hexagonGame;
 #endif
-            Tid triggerID;
+            int triggerID;
             
             bool waitingForBind{false};
             KKey setKey{KKey::Unknown};
             MBtn setBtn{MBtn::Left};
             
-            inline int getRealSize(const std::vector<Combo> combos) const
+            [[nodiscard]] inline int getRealSize(const std::vector<Combo>& combos) const
             {
                 int i, size = combos.size();
                 for (i = 0; i < size; ++i)
@@ -76,7 +75,7 @@ namespace ssvms
 #ifdef OPEN_HEXAGON
 						HexagonGame& mHexagonGame,
 #endif
-						Tid mtriggerID)
+						int mTriggerID)
 				: ItemBase{mMenu, mCategory, mName},
                   triggerGetter{[=, this] { return mFuncGet(); }},
                   sizeGetter{[=, this] { return getRealSize(triggerGetter().getCombos()); }},
@@ -86,53 +85,66 @@ namespace ssvms
 #ifdef OPEN_HEXAGON
 				  hexagonGame{mHexagonGame},
 #endif
-				  triggerID{mtriggerID}
+				  triggerID{mTriggerID}
 			{
 			}
+
+            inline void refreshTriggers(const Trigger& trig, const int id)
+            {
+                game.refreshTrigger(trig, id);
+#ifdef OPEN_HEXAGON
+                hexagonGame.refreshTrigger(trig, id);
+#endif
+            }
             
             inline void exec() override //if bind spots are full do not allow binding
             {
                 if(!waitingForBind)
+                {
                     waitingForBind = sizeGetter() < 2;
+                }
                 else
+                {
                     waitingForBind = false;
+                }
             }
             inline int isWaitingForBind() override { return waitingForBind ? KeyboardBind : 0; }
 			inline bool erase() override
             {
                 const int size = sizeGetter();
-                if(!size) return false;
+                if(!size) { return false; }
                 
                 clearBind();
-                game.refreshTrigger(triggerGetter(), triggerID);
-#ifdef OPEN_HEXAGON
-                hexagonGame.refreshTrigger(triggerGetter(), triggerID);
-#endif
+                refreshTriggers(triggerGetter(), triggerID);
                 return true;
             }
 
             inline void newKeyboardBind(const KKey key, const MBtn btn) override
             {
                 // stop if the pressed key is already assigned to this bind
-                std::vector Combos = triggerGetter().getCombos();
+                const std::vector<Combo>& Combos = triggerGetter().getCombos();
                 int size = sizeGetter();
                 if(key > KKey::Unknown)
                 {
                     for(int i = 0; i < size; ++i)
+                    {
                         if(Combos[i].getKeys()[int(key) + 1])
                         {
                             waitingForBind = false;
                             return;
                         }
+                    }
                 }
                 else
                 {
                     for(int i = 0; i < size; ++i)
+                    {
                         if(Combos[i].getBtns()[int(btn) + 1])
                         {
                             waitingForBind = false;
                             return;
                         }
+                    }
                 }
 
                 // assign the pressed key to the config value
@@ -142,19 +154,10 @@ namespace ssvms
 
                 // key was assigned to another function and was unbound.
                 // This trigger must be refreshed as well
-                if(unboundID > -1)
-                {
-                    game.refreshTrigger(trig, Tid(unboundID));
-#ifdef OPEN_HEXAGON
-                    hexagonGame.refreshTrigger(trig, Tid(unboundID));
-#endif
-                }
+                if(unboundID > -1) { refreshTriggers(trig, unboundID) }
 
                 // apply the new bind in game
-                game.refreshTrigger(triggerGetter(), triggerID);
-#ifdef OPEN_HEXAGON
-                hexagonGame.refreshTrigger(triggerGetter(), triggerID);
-#endif
+                refreshTriggers(triggerGetter(), triggerID);
 
                 // finalize
                 waitingForBind = false;
@@ -162,7 +165,7 @@ namespace ssvms
 
 			inline std::string getName() const override
 			{
-				const std::vector<Combo> combos = triggerGetter().getCombos();
+				const std::vector<Combo>& combos = triggerGetter().getCombos();
                 const int size = sizeGetter();
 				std::string bindNames;
                 std::bitset<102> keyBind;
@@ -177,7 +180,7 @@ namespace ssvms
 					{
 						if(keyBind[j])
                         {
-                            if(!bindNames.empty()) bindNames += ", ";
+                            if(!bindNames.empty()) { bindNames += ", "; }
                             bindNames += ssvs::getKKeyName(KKey(j - 1)); //names are shifted compared to the Key enum
                             break;
                         }
@@ -188,20 +191,18 @@ namespace ssvms
                     {
                         if(btnBinds[j])
                         {
-                            if(!bindNames.empty()) bindNames += ", ";
+                            if(!bindNames.empty()) { bindNames += ", "; }
                             bindNames += ssvs::getMBtnName(MBtn(j - 1)); //same as with keys
                             break;
                         }
                     }
 				}
 
-                if(waitingForBind)
-                    bindNames += "_";
+                if(waitingForBind) { bindNames += "_"; }
 				
 				return name + ": " + bindNames;
 			}
 		};
-
 
 #ifdef OPEN_HEXAGON
         class JoystickBindControl final : public ItemBase
@@ -239,7 +240,7 @@ namespace ssvms
             inline int isWaitingForBind() override { return waitingForBind ? JoystickBind : 0; }
             inline bool erase() override
             {
-                if(valueGetter() == 33) return false;
+                if(valueGetter() == 33) { return false; }
 
                 pressedButton = 33;
                 setButton();
@@ -261,7 +262,9 @@ namespace ssvms
 
                 // if the key was bound to another function and it was reassigned
                 // make sure we also update the unbound joystick button
-                if(unboundID > -1) hg::Joystick::unbindJoystickButton(unboundID);
+                if(unboundID > -1) { hg::Joystick::unbindJoystickButton(unboundID); }
+
+                std::cout << "unboundID " << unboundID << " pressed button " << joy << " buttond ID " << buttonID << std::endl;
 
                 // update the bind we customized
                 hg::Joystick::setJoystickBind(joy, buttonID);
@@ -276,16 +279,18 @@ namespace ssvms
                 unsigned int value = valueGetter();
 				
 				if(value == 33)
-					bindNames = "";
+                {
+                    bindNames = "";
+                }
 				else
 				{
 					unsigned int vendorId = sf::Joystick::isConnected(0) ? sf::Joystick::getIdentification(0).vendorId : 0;
 					switch(vendorId)
 					{
-					case MS_VENDORID:
+					case MS_VENDOR_ID:
 						bindNames = value >= 12 ? "" : buttonsNames[value][0];
 						break;
-					case SONY_VENDORID:
+					case SONY_VENDOR_ID:
 						bindNames = value >= 12 ? "" : buttonsNames[value][1];
 						break;
 					default:
@@ -294,8 +299,7 @@ namespace ssvms
 					}
 				}
 
-                if(waitingForBind)
-                    bindNames += "_";
+                if(waitingForBind) { bindNames += "_"; }
 
                 return name + ": " + bindNames;
             }
