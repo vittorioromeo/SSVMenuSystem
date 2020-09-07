@@ -264,8 +264,6 @@ namespace ssvms
                 // make sure we also update the unbound joystick button
                 if(unboundID > -1) { hg::Joystick::unbindJoystickButton(unboundID); }
 
-                std::cout << "unboundID " << unboundID << " pressed button " << joy << " buttond ID " << buttonID << std::endl;
-
                 // update the bind we customized
                 hg::Joystick::setJoystickBind(joy, buttonID);
 
