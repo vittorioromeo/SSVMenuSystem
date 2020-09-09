@@ -51,7 +51,10 @@ namespace ssvms
             {
                 int i, size = combos.size();
                 for (i = 0; i < size; ++i)
-                    if(combos[i].isUnbound()) break;
+				{
+                    if(combos[i].isUnbound())
+						break;
+				}
                 return i;
             }
 
@@ -69,17 +72,7 @@ namespace ssvms
             {
             }
 
-            inline void exec() override //if bind spots are full do not allow binding
-            {
-                if(!waitingForBind)
-                {
-                    waitingForBind = sizeGetter() < 2;
-                }
-                else
-                {
-                    waitingForBind = false;
-                }
-            }
+            inline void exec() override { waitingForBind = !waitingForBind; }
             inline int isWaitingForBind() override { return waitingForBind ? KeyboardBind : 0; }
             inline bool erase() override
             {
@@ -204,10 +197,7 @@ namespace ssvms
             {
             }
 
-            inline void exec() override
-            {
-                waitingForBind = !waitingForBind;
-            }
+            inline void exec() override { waitingForBind = !waitingForBind; }
             inline int isWaitingForBind() override { return waitingForBind ? JoystickBind : 0; }
             inline bool erase() override
             {
