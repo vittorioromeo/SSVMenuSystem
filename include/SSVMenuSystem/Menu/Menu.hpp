@@ -6,6 +6,7 @@
 #define SSVMS_MENU
 
 #include "SSVMenuSystem/Menu/Controller.hpp"
+#include "SSVMenuSystem/Menu/Category.hpp"
 
 #include <string>
 #include <stack>
@@ -44,9 +45,9 @@ namespace ssvms
         inline void update() { controller.update(); }
 
         inline bool canGoBack() const { return lastCategories.size() > 1; }
-        inline auto& getCategory() const { return *category; }
-        inline auto& getItem() const { return category->getItem(); }
-        inline const decltype(category->items)& getItems() const
+        inline Category& getCategory() const { return *category; }
+        inline ItemBase& getItem() const { return category->getItem(); }
+        inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const
         {
             return category->getItems();
         }
@@ -76,7 +77,7 @@ namespace ssvms
     };
 
     // Pipe operator allows to set predicates to enable/disable menu items
-    inline auto& operator|(ItemBase& mLhs, Predicate mRhs)
+    inline ItemBase& operator|(ItemBase& mLhs, Predicate mRhs)
     {
         mLhs.getMenu().getMenuController().enableItemWhen(mLhs, mRhs);
         return mLhs;
