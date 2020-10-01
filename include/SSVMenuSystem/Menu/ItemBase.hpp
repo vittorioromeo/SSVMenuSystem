@@ -19,6 +19,8 @@ namespace ssvms
         Category& category;
         std::string name;
         bool enabled{true};
+        bool increasable{false};
+        float offset{0.f};
 
     public:
         ItemBase(Menu& mMenu, Category& mCategory, const std::string& mName)
@@ -36,6 +38,9 @@ namespace ssvms
         inline auto& getMenu() const { return menu; }
         inline virtual std::string getName() const { return name; }
         inline bool isEnabled() const { return enabled; }
+        inline bool canIncrease() const { return increasable; }
+
+        inline float& getOffset() { return offset; }
     };
 }
 
