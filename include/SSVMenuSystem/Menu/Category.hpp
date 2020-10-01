@@ -48,7 +48,7 @@ namespace ssvms
             return static_cast<T&>(*items.emplace_back(
                 std::make_unique<T>(menu, *this, mName, FWD(mArgs)...)));
         }
-		template <typename T>
+		
         inline void remove()
         {
             items.erase(items.begin() + index);
