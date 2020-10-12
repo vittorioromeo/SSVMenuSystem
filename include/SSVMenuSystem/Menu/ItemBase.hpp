@@ -36,6 +36,8 @@ namespace ssvms
         inline auto& getMenu() const { return menu; }
         inline virtual std::string getName() const { return name; }
         inline bool isEnabled() const { return enabled; }
+
+        float xOffset{0.f};
     };
 }
 

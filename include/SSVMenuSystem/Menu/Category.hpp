@@ -48,6 +48,20 @@ namespace ssvms
             return static_cast<T&>(*items.emplace_back(
                 std::make_unique<T>(menu, *this, mName, FWD(mArgs)...)));
         }
+		
+        inline void remove()
+        {
+            items.erase(items.begin() + index);
+            index = std::min(index, int(items.size()) - 1);
+        }
+        inline void sortByName()
+        {
+            auto sortFunc = [](const std::unique_ptr<ItemBase>& a, const std::unique_ptr<ItemBase>& b) -> bool
+            {
+                return a->getName() < b->getName();
+            };
+            std::sort(items.begin(), items.end(), sortFunc);
+        }
 
         inline void next()
         {
@@ -60,10 +74,12 @@ namespace ssvms
             wrapIndex();
         }
 
-        inline const std::string& getName() const { return name; }
-        inline ItemBase& getItem() const { return *(items[index]); }
-        inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const { return items; }
-        inline int getIdx() { return index; }
+        inline const auto& getName() const { return name; }
+        inline auto& getItem() const { return *(items[index]); }
+        inline const auto& getItems() const { return items; }
+        inline int getIdx() const { return index; }
+
+        float offset{0.f};
     };
 }
 

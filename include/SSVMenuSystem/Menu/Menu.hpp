@@ -46,6 +46,16 @@ namespace ssvms
 
         inline bool canGoBack() const { return lastCategories.size() > 1; }
         inline Category& getCategory() const { return *category; }
+        inline auto& getCategories() const { return categories; }
+        inline auto& getCategoryByName(const std::string& mName) const
+        {
+            for(auto& c : categories)
+            {
+                if(c->getName() == mName)
+                    return *c;
+            }
+            return *category;
+        }
         inline ItemBase& getItem() const { return category->getItem(); }
         inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const
         {
