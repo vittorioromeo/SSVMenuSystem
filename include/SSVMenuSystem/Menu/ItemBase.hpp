@@ -39,7 +39,6 @@ namespace ssvms
         inline virtual std::string getName() const { return name; }
         inline bool isEnabled() const { return enabled; }
         inline bool canIncrease() const { return increasable; }
-
         inline float& getOffset() { return offset; }
     };
 }

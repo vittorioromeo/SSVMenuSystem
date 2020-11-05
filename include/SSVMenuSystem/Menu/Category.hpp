@@ -49,7 +49,7 @@ namespace ssvms
             return static_cast<T&>(*items.emplace_back(
                 std::make_unique<T>(menu, *this, mName, FWD(mArgs)...)));
         }
-		
+
         inline void remove()
         {
             items.erase(items.begin() + index);
@@ -79,7 +79,6 @@ namespace ssvms
         inline auto& getItem() const { return *(items[index]); }
         inline const auto& getItems() const { return items; }
         inline int getIdx() const { return index; }
-
         inline float& getOffset() { return offset; }
     };
 }
