@@ -33,15 +33,17 @@ namespace ssvms
                   activateAction{mActivateAction},
                   deactivateAction{mDeactivateAction}
             {
+                increasable = true;
             }
 
             template <typename TFuncGet, typename TFuncSet>
             Toggle(Menu& mMenu, Category& mCategory, const std::string& mName,
                 TFuncGet mFuncGet, TFuncSet mFuncSet)
-                : ItemBase{mMenu, mCategory, mName}, predicate{[=]
-                                                         {
-                                                             return mFuncGet();
-                                                         }},
+                : ItemBase{mMenu, mCategory, mName},
+                  predicate{[=]
+                      {
+                          return mFuncGet();
+                      }},
                   activateAction{[=]
                       {
                           mFuncSet(true);
@@ -51,14 +53,16 @@ namespace ssvms
                           mFuncSet(false);
                       }}
             {
+                increasable = true;
             }
 
             Toggle(Menu& mMenu, Category& mCategory, const std::string& mName,
                 bool& mBool)
-                : ItemBase{mMenu, mCategory, mName}, predicate{[this, &mBool]
-                                                         {
-                                                             return mBool;
-                                                         }},
+                : ItemBase{mMenu, mCategory, mName},
+                  predicate{[this, &mBool]
+                      {
+                          return mBool;
+                      }},
                   activateAction{[this, &mBool]
                       {
                           mBool = true;
@@ -68,11 +72,20 @@ namespace ssvms
                           mBool = false;
                       }}
             {
+                increasable = true;
             }
 
             inline void exec() override
             {
                 predicate() ? deactivateAction() : activateAction();
+            }
+            inline void increase() override
+            {
+                exec();
+            }
+            inline void decrease() override
+            {
+                exec();
             }
             inline std::string getName() const override
             {

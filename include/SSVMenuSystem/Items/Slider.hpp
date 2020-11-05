@@ -34,6 +34,7 @@ namespace ssvms
                   increaseAction{mIncreaseAction},
                   decreaseAction{mDecreaseAction}
             {
+                increasable = true;
             }
 
             template <typename T, typename TFuncGet, typename TFuncSet>
@@ -56,6 +57,7 @@ namespace ssvms
                               mFuncGet() - mIncrement, mMin, mMax));
                       }}
             {
+                increasable = true;
             }
 
             inline void increase() override { increaseAction(); }

@@ -27,6 +27,7 @@ namespace ssvms
         std::string name;
         std::vector<std::unique_ptr<ItemBase>> items;
         int index{0};
+        float offset{0.f};
 
         inline void wrapIndex()
         {
@@ -48,7 +49,7 @@ namespace ssvms
             return static_cast<T&>(*items.emplace_back(
                 std::make_unique<T>(menu, *this, mName, FWD(mArgs)...)));
         }
-		
+
         inline void remove()
         {
             items.erase(items.begin() + index);
@@ -78,8 +79,7 @@ namespace ssvms
         inline auto& getItem() const { return *(items[index]); }
         inline const auto& getItems() const { return items; }
         inline int getIdx() const { return index; }
-
-        float offset{0.f};
+        inline float& getOffset() { return offset; }
     };
 }
 
