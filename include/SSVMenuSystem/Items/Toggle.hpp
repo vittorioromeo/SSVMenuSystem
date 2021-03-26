@@ -59,15 +59,15 @@ namespace ssvms
             Toggle(Menu& mMenu, Category& mCategory, const std::string& mName,
                 bool& mBool)
                 : ItemBase{mMenu, mCategory, mName},
-                  predicate{[this, &mBool]
+                  predicate{[&mBool]
                       {
                           return mBool;
                       }},
-                  activateAction{[this, &mBool]
+                  activateAction{[&mBool]
                       {
                           mBool = true;
                       }},
-                  deactivateAction{[this, &mBool]
+                  deactivateAction{[&mBool]
                       {
                           mBool = false;
                       }}
