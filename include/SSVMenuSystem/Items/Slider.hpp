@@ -9,6 +9,8 @@
 #include "SSVMenuSystem/Menu/ItemBase.hpp"
 #include "SSVMenuSystem/Menu/Menu.hpp"
 
+#include <SSVUtils/Core/String/ToStr.hpp>
+
 #include <functional>
 #include <string>
 
