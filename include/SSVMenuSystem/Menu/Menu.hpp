@@ -57,6 +57,10 @@ namespace ssvms
             return *category;
         }
         inline ItemBase& getItem() const { return category->getItem(); }
+        inline std::vector<std::unique_ptr<ItemBase>>& getItems()
+        {
+            return category->getItems();
+        }
         inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const
         {
             return category->getItems();

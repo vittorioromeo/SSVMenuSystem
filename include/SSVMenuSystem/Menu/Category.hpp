@@ -77,6 +77,7 @@ namespace ssvms
 
         inline const auto& getName() const { return name; }
         inline auto& getItem() const { return *(items[index]); }
+        inline auto& getItems() { return items; }
         inline const auto& getItems() const { return items; }
         inline int getIdx() const { return index; }
         inline float& getOffset() { return offset; }
