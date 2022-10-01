@@ -32,7 +32,7 @@ namespace ssvms
             inline void update()
             {
                 for(const auto& p : enableWhenPairs)
-                    p.fst.setEnabled(p.snd());
+                    p.fst->setEnabled(p.snd());
             }
         };
     }

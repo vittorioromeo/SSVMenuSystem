@@ -41,6 +41,16 @@ namespace ssvms
             rhs._ptr = nullptr;
         }
 
+        [[nodiscard, gnu::always_inline]] UniquePtr& operator=(UniquePtr&& rhs) noexcept
+        {
+            delete _ptr;
+
+            _ptr = rhs._ptr;
+            rhs._ptr = nullptr;
+
+            return *this;
+        }
+
         [[nodiscard, gnu::always_inline]] T* get() noexcept
         {
             return _ptr;
