@@ -98,7 +98,7 @@ namespace ssvms
     }
 
     template <typename Base, typename T, typename... Ts>
-    [[nodiscard, gnu::always_inline]] inline UniquePtr<T> makeUniqueBase(Ts&&... xs)
+    [[nodiscard, gnu::always_inline]] inline UniquePtr<Base> makeUniqueBase(Ts&&... xs)
     {
         return UniquePtr<Base>{new T{static_cast<Ts&&>(xs)...}};
     }
