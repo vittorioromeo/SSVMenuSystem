@@ -96,6 +96,12 @@ namespace ssvms
     {
         return UniquePtr<T>{new T{static_cast<Ts&&>(xs)...}};
     }
+
+    template <typename Base, typename T, typename... Ts>
+    [[nodiscard, gnu::always_inline]] inline UniquePtr<T> makeUniqueBase(Ts&&... xs)
+    {
+        return UniquePtr<Base>{new T{static_cast<Ts&&>(xs)...}};
+    }
 }
 
 #endif
