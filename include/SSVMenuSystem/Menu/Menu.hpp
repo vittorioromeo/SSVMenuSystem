@@ -30,8 +30,10 @@ namespace ssvms
     public:
         inline auto& createCategory(const std::string& mName)
         {
-            auto& result(*categories.push_back(
-                makeUnique<Category>(*this, mName)));
+            categories.push_back(
+                makeUnique<Category>(*this, mName));
+
+            auto& result(*categories.back());
 
             if(category == nullptr) setCategory(result);
             return result;
