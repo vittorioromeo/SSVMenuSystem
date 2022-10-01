@@ -8,7 +8,6 @@
 #include "SSVMenuSystem/Global/Typedefs.hpp"
 
 #include <vector>
-#include <utility>
 
 namespace ssvms
 {
@@ -17,17 +16,23 @@ namespace ssvms
         class Controller
         {
         private:
-            std::vector<std::pair<ItemBase&, Predicate>> enableWhenPairs;
+            struct Pair
+            {
+                ItemBase* fst;
+                Predicate snd;
+            };
+
+            std::vector<Pair> enableWhenPairs;
 
         public:
             inline void enableItemWhen(ItemBase& mItem, Predicate mPred)
             {
-                enableWhenPairs.emplace_back(mItem, mPred);
+                enableWhenPairs.push_back(Pair{&mItem, mPred});
             }
             inline void update()
             {
                 for(const auto& p : enableWhenPairs)
-                    p.first.setEnabled(p.second());
+                    p.fst.setEnabled(p.snd());
             }
         };
     }

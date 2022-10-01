@@ -5,12 +5,13 @@
 #ifndef SSVMS_MENU
 #define SSVMS_MENU
 
+#include "SSVMenuSystem/Global/Typedefs.hpp"
+
 #include "SSVMenuSystem/Menu/Controller.hpp"
 #include "SSVMenuSystem/Menu/Category.hpp"
 
 #include <string>
 #include <stack>
-#include <memory>
 
 namespace ssvms
 {
@@ -21,7 +22,7 @@ namespace ssvms
     private:
         using Controller = Impl::Controller;
 
-        std::vector<std::unique_ptr<Category>> categories;
+        std::vector<UniquePtr<Category>> categories;
         Category* category{nullptr};
         std::stack<Category*> lastCategories;
         Controller controller;
@@ -30,7 +31,7 @@ namespace ssvms
         inline auto& createCategory(const std::string& mName)
         {
             auto& result(*categories.emplace_back(
-                std::make_unique<Category>(*this, mName)));
+                makeUnique<Category>(*this, mName)));
 
             if(category == nullptr) setCategory(result);
             return result;
@@ -57,11 +58,11 @@ namespace ssvms
             return *category;
         }
         inline ItemBase& getItem() const { return category->getItem(); }
-        inline std::vector<std::unique_ptr<ItemBase>>& getItems()
+        inline std::vector<UniquePtr<ItemBase>>& getItems()
         {
             return category->getItems();
         }
-        inline const std::vector<std::unique_ptr<ItemBase>>& getItems() const
+        inline const std::vector<UniquePtr<ItemBase>>& getItems() const
         {
             return category->getItems();
         }

@@ -11,7 +11,6 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace ssvms
 {
@@ -25,7 +24,7 @@ namespace ssvms
     private:
         Menu& menu;
         std::string name;
-        std::vector<std::unique_ptr<ItemBase>> items;
+        std::vector<UniquePtr<ItemBase>> items;
         int index{0};
         float offset{0.f};
 
@@ -47,7 +46,7 @@ namespace ssvms
         inline T& create(const std::string& mName, TArgs&&... mArgs)
         {
             return static_cast<T&>(*items.emplace_back(
-                std::make_unique<T>(menu, *this, mName, FWD(mArgs)...)));
+                makeUnique<T>(menu, *this, mName, FWD(mArgs)...)));
         }
 
         inline void remove()
@@ -57,7 +56,7 @@ namespace ssvms
         }
         inline void sortByName()
         {
-            auto sortFunc = [](const std::unique_ptr<ItemBase>& a, const std::unique_ptr<ItemBase>& b) -> bool
+            auto sortFunc = [](const UniquePtr<ItemBase>& a, const UniquePtr<ItemBase>& b) -> bool
             {
                 return a->getName() < b->getName();
             };
