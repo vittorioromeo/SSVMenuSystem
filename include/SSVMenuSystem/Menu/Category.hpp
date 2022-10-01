@@ -45,7 +45,7 @@ namespace ssvms
         template <typename T, typename... TArgs>
         inline T& create(const std::string& mName, TArgs&&... mArgs)
         {
-            return static_cast<T&>(*items.emplace_back(
+            return static_cast<T&>(*items.push_back(
                 makeUnique<T>(menu, *this, mName, FWD(mArgs)...)));
         }
 
