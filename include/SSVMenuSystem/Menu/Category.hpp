@@ -9,6 +9,7 @@
 
 #include <SSVUtils/Core/Common/Casts.hpp>
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
